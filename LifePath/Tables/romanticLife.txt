@@ -1,0 +1,47 @@
+﻿[Romance]
+1-3=@RelationshipStatus
+4-7=@SingleStatus
+8-10=@ReboundStatus
+
+[SingleStatus]
+1-2=You date anything that moves
+3-4=You're waiting for the right one
+5-6=You're on a personal mission and haven't got time to waste on romance
+7-8=You just don't want to get serious
+9-10=Sex?  Romance?  What's that?
+
+[RelationshipStatus]
+1=Your lover's friends or relatives hate you
+2=Your lover's friends or relatives would get rid of you by any means possible
+3=Your friends or relatives hate your lover
+4=One of you has a romantic rival
+5=You are separated for some reason
+6=You fight constantly
+7=One of you is insanely jealous
+8=One of you is seeing someone else on the side
+9-10=Everything is great between you
+
+[ReboundStatus]
+1=They died in a war
+2=They were killed in an accident
+3=They mysteriously vanished
+4=It just didn't work out
+5=A personal mission came between you
+6=They were kidnapped or imprisoned
+7=They committed suicide or went insane
+8=Relatives or social pressures kept you apart
+9=They defected
+10=A rival cut you out of the action
+NEXT=@ExStatus
+
+[ExStatus]
+1=They still love you
+2=You still love them
+3=You still love each other
+4=You hate them
+5=They hate you
+6=You hate each other
+7=You're good friends
+8=No feelings either way
+9=You like them but they hate you
+10=They like you but you hate them

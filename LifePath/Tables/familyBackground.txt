@@ -1,0 +1,33 @@
+﻿[FamilyStanding]
+1-6=@Siblings
+7-10=@FamilyMisfortune
+
+[FamilyMisfortune]
+1-2=Family lost all titles and lands through betrayal or bad management
+3-4=Family was exiled or sent abroad and you have returned under an alias
+5-6=Family was imprisoned and you alone escaped
+7-8=Family vanished.  You are the only remaining member
+9=Family was murdered and you alone escaped
+10=Family lost everything when family fortunes collapsed
+NEXT=@LifeGoal
+
+[LifeGoal]
+1-2=Clear your name
+3-4=Live it down and forget it
+5-6=Hunt down those responsible and claim retribution
+7-8=Get what's rightfully yours
+9-10=Save your remaining family if possible
+NEXT=@Siblings
+
+[Siblings]
+1-7=#
+8-10=0
+NEXT=@SiblingRel
+
+[SiblingRel]
+1-2=Dislike
+3-4=Like
+5-6=Neutral
+7-8=Hero worship
+9-10=Hate
+NEXT=@Friends

@@ -1,0 +1,22 @@
+﻿[Parents]
+1-5=BothLiving
+6-10=Other
+
+[BothLiving]
+1-4=You get along well with both parents
+5-8=You get along well with one but no the other
+9-10=You don't get along with either parent
+NEXT=FamilyStanding
+
+[Other]
+1=Your parent(s) died in a war
+2=Your parent(s) died in an accident
+3=Your parent(s) were murdered
+4=Your parent(s) have amnesia and don't remember you
+5=You never knew your parents
+6=Your parent(s) were lost on a secret mission
+7=Your parent(s) are in hiding to protect you
+8=Your parent(s) defected to "the other side"
+9=You were left with relatives for safekeeping
+10=You grew up on the streets
+NEXT=FamilyStanding

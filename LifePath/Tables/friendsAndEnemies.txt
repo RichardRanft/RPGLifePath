@@ -1,0 +1,50 @@
+﻿[Friends]
+1=Grew up with you
+2=Is a childhood friend
+3=Was an old family friend
+4=Is like an older brother/sister to you
+5=Is like a kid brother/sister to you
+6=Is a teacher or mentor
+7=Is like a foster parent to you
+8=Is a partner or co-worker
+9=Is an old lover
+10=Is an old enemy
+NEXT=@Enemies
+
+[Enemies]
+1-3=Enemy agent
+4=Ex-friend
+5=Ex-lover
+6=Relative
+7=Childhood enemy/rival
+8=Superior officer or other official
+9=Person under your command or a lower official
+10=Ex co-worker or partner
+NEXT=@EnemyOrigin
+
+[EnemyOrigin]
+1=Caused the other to lose face or status
+2=Caused the loss of a lover friend or relative
+3=Caused major humiliation
+4=Accused other of cowardice or other personal flaw
+5=Caused a physical disability
+6=Deserted or betrayed the other
+7=Turned down other's offer of job or romantic involvement
+8=Caused imprisonment or exile of other person
+9=Was a romantic rival
+10=Foiled a plan of the other's
+NEXT=@EnemyStatus
+
+[EnemyStatus]
+1-4=They hate you
+5-7=You hate them
+8-10=The feeling's mutual
+NEXT=@EnemyReaction
+
+[EnemyReaction]
+1-2=Go into a murderous rage and try to kill the other
+3-4=Avoid the other person
+5-6=Cause injury in any indirect way possible
+7-8=Ignore them
+9-10=Verbally attack them
+NEXT=@Romance

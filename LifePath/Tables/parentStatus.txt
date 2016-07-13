@@ -1,12 +1,12 @@
 ﻿[Parents]
-1-5=BothLiving
-6-10=Other
+1-5=@BothLiving
+6-10=@Other
 
 [BothLiving]
 1-4=You get along well with both parents
-5-8=You get along well with one but no the other
+5-8=You get along well with one but not the other
 9-10=You don't get along with either parent
-NEXT=FamilyStanding
+NEXT=@FamilyStanding
 
 [Other]
 1=Your parent(s) died in a war
@@ -19,4 +19,4 @@ NEXT=FamilyStanding
 8=Your parent(s) defected to "the other side"
 9=You were left with relatives for safekeeping
 10=You grew up on the streets
-NEXT=FamilyStanding
+NEXT=@FamilyStanding

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,77 +15,101 @@ namespace LifePath
         private List<String> m_last;
         private Random m_rnd;
         private bool m_loaded = false;
+        private DataSet m_pathData;
 
         public CNameGenerator()
         {
             m_rnd = new Random(DateTime.Now.Millisecond);
         }
 
+        public CNameGenerator(DataSet set)
+        {
+            m_rnd = new Random(DateTime.Now.Millisecond);
+            m_pathData = set;
+        }
+
         private void loadNames()
         {
             try
             {
-                if (m_first == null)
+                if (m_pathData == null)
                 {
-                    m_first = new List<string>();
-                    String names = "";
-                    if (!File.Exists("Tables\\database_of_first_names.csv"))
+                    if (m_first == null)
                     {
-                        using (StreamReader sr = new StreamReader("Tables\\csv_database_of_first_names.csv"))
+                        m_first = new List<string>();
+                        String names = "";
+                        if (!File.Exists("Tables\\database_of_first_names.csv"))
                         {
-                            names = sr.ReadToEnd();
-                        }
-                        if (names.Contains(Environment.NewLine))
-                        {
-                            names = convertEOLtoComma(names);
-                            using (StreamWriter sw = new StreamWriter("Tables\\database_of_first_names.csv"))
+                            using (StreamReader sr = new StreamReader("Tables\\csv_database_of_first_names.csv"))
                             {
-                                sw.Write(names);
+                                names = sr.ReadToEnd();
+                            }
+                            if (names.Contains(Environment.NewLine))
+                            {
+                                names = convertEOLtoComma(names);
+                                using (StreamWriter sw = new StreamWriter("Tables\\database_of_first_names.csv"))
+                                {
+                                    sw.Write(names);
+                                }
                             }
                         }
-                    }
-                    else
-                    {
-                        using (StreamReader sr = new StreamReader("Tables\\database_of_first_names.csv"))
+                        else
                         {
-                            names = sr.ReadToEnd();
-                        }
-                    }
-                    String[] parts = names.Split(',');
-                    foreach (String part in parts)
-                        m_first.Add(part);
-                }
-                if (m_last == null)
-                {
-                    String names = "";
-                    if (!File.Exists("Tables\\database_of_last_names.csv"))
-                    {
-                        m_last = new List<string>();
-                        using (StreamReader sr = new StreamReader("Tables\\csv_database_of_last_names.csv"))
-                        {
-                            names = sr.ReadToEnd();
-                        }
-                        if (names.Contains(Environment.NewLine))
-                        {
-                            names = convertEOLtoComma(names);
-                            using (StreamWriter sw = new StreamWriter("Tables\\database_of_last_names.csv"))
+                            using (StreamReader sr = new StreamReader("Tables\\database_of_first_names.csv"))
                             {
-                                sw.Write(names);
+                                names = sr.ReadToEnd();
                             }
                         }
+                        String[] parts = names.Split(',');
+                        foreach (String part in parts)
+                            m_first.Add(part);
                     }
-                    else
+                    if (m_last == null)
                     {
-                        using (StreamReader sr = new StreamReader("Tables\\database_of_last_names.csv"))
+                        String names = "";
+                        if (!File.Exists("Tables\\database_of_last_names.csv"))
                         {
-                            names = sr.ReadToEnd();
+                            m_last = new List<string>();
+                            using (StreamReader sr = new StreamReader("Tables\\csv_database_of_last_names.csv"))
+                            {
+                                names = sr.ReadToEnd();
+                            }
+                            if (names.Contains(Environment.NewLine))
+                            {
+                                names = convertEOLtoComma(names);
+                                using (StreamWriter sw = new StreamWriter("Tables\\database_of_last_names.csv"))
+                                {
+                                    sw.Write(names);
+                                }
+                            }
                         }
+                        else
+                        {
+                            using (StreamReader sr = new StreamReader("Tables\\database_of_last_names.csv"))
+                            {
+                                names = sr.ReadToEnd();
+                            }
+                        }
+                        String[] parts = names.Split(',');
+                        foreach (String part in parts)
+                            m_last.Add(part);
                     }
-                    String[] parts = names.Split(',');
-                    foreach (String part in parts)
-                        m_last.Add(part);
+                    m_loaded = true;
                 }
-                m_loaded = true;
+                else
+                {
+                    m_first = new List<String>();
+                    foreach (DataRow row in m_pathData.Tables["First_Names"].Rows)
+                    {
+                        m_first.Add(row["name"].ToString());
+                    }
+                    m_last = new List<String>();
+                    foreach (DataRow row in m_pathData.Tables["Last_Names"].Rows)
+                    {
+                        m_last.Add(row["name"].ToString());
+                    }
+                    m_loaded = true;
+                }
             }
             catch (Exception ex)
             {

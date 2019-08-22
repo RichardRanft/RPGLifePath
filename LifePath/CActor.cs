@@ -44,5 +44,37 @@ namespace LifePath
             if (parts.Length > 1)
                 m_lastName = parts[1];
         }
+
+        public String GetDescription()
+        {
+            String descText = String.Format("Name         : {0}", Name);
+            if (!String.IsNullOrEmpty(Relationship))
+            {
+                descText += Environment.NewLine;
+                descText += String.Format("Relationship : {0}", Relationship);
+            }
+            if (!String.IsNullOrEmpty(Origin))
+            {
+                descText += Environment.NewLine;
+                descText += String.Format("Origin       : {0}", Origin);
+            }
+            if (!String.IsNullOrEmpty(Status))
+            {
+                descText += Environment.NewLine;
+                descText += String.Format("Status       : {0}", Status);
+            }
+            if (!String.IsNullOrEmpty(Reaction))
+            {
+                descText += Environment.NewLine;
+                descText += String.Format("Reaction     : {0}", Reaction);
+            }
+
+            return descText;
+        }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

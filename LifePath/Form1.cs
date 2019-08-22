@@ -44,13 +44,40 @@ namespace LifePath
 
         private void btnGenerate_Click(object sender, EventArgs e)
         {
+            if (String.IsNullOrEmpty(tbxFirstName.Text) || String.IsNullOrEmpty(tbxLastName.Text))
+                return;
             m_lifepath = m_lpgen.Generate(tbxFirstName.Text, tbxLastName.Text);
             displayPathData();
         }
 
         private void displayPathData()
         {
-            
+            lblParent1.Text = "";
+            lblParent2.Text = "";
+            lblParentStatus.Text = m_lifepath.ParentStatus;
+            if (m_lifepath.Parents.Count > 0)
+                lblParent1.Text = m_lifepath.Parents[0].ToString();
+            if (m_lifepath.Parents.Count > 1)
+                lblParent2.Text = m_lifepath.Parents[1].ToString();
+            lblFamilyStatus.Text = m_lifepath.FamilyStatus;
+            lbxSiblings.Items.Clear();
+            foreach (CActor actor in m_lifepath.Siblings)
+                lbxSiblings.Items.Add(actor);
+            lbxFriends.Items.Clear();
+            foreach (CActor actor in m_lifepath.Friends)
+                lbxFriends.Items.Add(actor);
+            lbxEnemies.Items.Clear();
+            foreach (CActor actor in m_lifepath.Enemies)
+                lbxEnemies.Items.Add(actor);
+            lblLoverName.Text = "";
+            lblRelInfo.Text = "";
+            lblRelationshipStatus.Text = m_lifepath.RomanceStatus;
+            if(!String.IsNullOrEmpty(m_lifepath.Lover.FirstName))
+            {
+                lblLoverName.Text = m_lifepath.Lover.Name;
+                lblRelInfo.Text = m_lifepath.Lover.Relationship;
+            }
+            tbxDisplaySelected.Text = "";
         }
 
         private void dumpPathData()
@@ -132,6 +159,16 @@ namespace LifePath
         {
             if (m_lifepath != null)
                 dumpPathData();
+        }
+
+        private void lbxSiblings_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ListBox box = (ListBox)sender;
+            if(box.SelectedItem != null)
+            {
+                CActor actor = (CActor)box.SelectedItem;
+                tbxDisplaySelected.Text = actor.GetDescription();
+            }
         }
     }
 }

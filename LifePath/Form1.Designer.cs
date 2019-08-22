@@ -38,10 +38,26 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnGenName = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.listBox1 = new System.Windows.Forms.ListBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.btnSave = new System.Windows.Forms.Button();
+            this.lblParent1 = new System.Windows.Forms.Label();
+            this.lblParent2 = new System.Windows.Forms.Label();
+            this.lblParentStatus = new System.Windows.Forms.Label();
+            this.lblFamilyStatus = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.lblRelationshipStatus = new System.Windows.Forms.Label();
+            this.lblRelInfo = new System.Windows.Forms.Label();
+            this.lblLoverName = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.tbxDisplaySelected = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.lbxSiblings = new System.Windows.Forms.ListBox();
+            this.lbxFriends = new System.Windows.Forms.ListBox();
+            this.lbxEnemies = new System.Windows.Forms.ListBox();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -122,7 +138,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1045, 96);
+            this.panel1.Size = new System.Drawing.Size(758, 96);
             this.panel1.TabIndex = 7;
             // 
             // btnGenName
@@ -137,31 +153,39 @@
             // 
             // panel2
             // 
-            this.panel2.Controls.Add(this.listBox1);
+            this.panel2.Controls.Add(this.lbxEnemies);
+            this.panel2.Controls.Add(this.lbxFriends);
+            this.panel2.Controls.Add(this.lbxSiblings);
+            this.panel2.Controls.Add(this.label9);
+            this.panel2.Controls.Add(this.tbxDisplaySelected);
+            this.panel2.Controls.Add(this.lblRelationshipStatus);
+            this.panel2.Controls.Add(this.lblRelInfo);
+            this.panel2.Controls.Add(this.lblLoverName);
+            this.panel2.Controls.Add(this.label12);
+            this.panel2.Controls.Add(this.label8);
+            this.panel2.Controls.Add(this.label5);
+            this.panel2.Controls.Add(this.label7);
+            this.panel2.Controls.Add(this.lblFamilyStatus);
+            this.panel2.Controls.Add(this.label6);
+            this.panel2.Controls.Add(this.lblParentStatus);
+            this.panel2.Controls.Add(this.lblParent2);
+            this.panel2.Controls.Add(this.lblParent1);
             this.panel2.Controls.Add(this.label3);
             this.panel2.Controls.Add(this.btnGenerate);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(0, 96);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1045, 377);
+            this.panel2.Size = new System.Drawing.Size(758, 498);
             this.panel2.TabIndex = 8;
-            // 
-            // listBox1
-            // 
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(11, 52);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(260, 56);
-            this.listBox1.TabIndex = 2;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(11, 36);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(71, 13);
+            this.label3.Size = new System.Drawing.Size(74, 13);
             this.label3.TabIndex = 1;
-            this.label3.Text = "Parent Status";
+            this.label3.Text = "Parent Status:";
             // 
             // label4
             // 
@@ -182,11 +206,164 @@
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
+            // lblParent1
+            // 
+            this.lblParent1.AutoSize = true;
+            this.lblParent1.Location = new System.Drawing.Point(24, 53);
+            this.lblParent1.Name = "lblParent1";
+            this.lblParent1.Size = new System.Drawing.Size(10, 13);
+            this.lblParent1.TabIndex = 2;
+            this.lblParent1.Text = " ";
+            // 
+            // lblParent2
+            // 
+            this.lblParent2.AutoSize = true;
+            this.lblParent2.Location = new System.Drawing.Point(24, 70);
+            this.lblParent2.Name = "lblParent2";
+            this.lblParent2.Size = new System.Drawing.Size(10, 13);
+            this.lblParent2.TabIndex = 3;
+            this.lblParent2.Text = " ";
+            // 
+            // lblParentStatus
+            // 
+            this.lblParentStatus.AutoSize = true;
+            this.lblParentStatus.Location = new System.Drawing.Point(99, 36);
+            this.lblParentStatus.Name = "lblParentStatus";
+            this.lblParentStatus.Size = new System.Drawing.Size(10, 13);
+            this.lblParentStatus.TabIndex = 4;
+            this.lblParentStatus.Text = " ";
+            // 
+            // lblFamilyStatus
+            // 
+            this.lblFamilyStatus.AutoSize = true;
+            this.lblFamilyStatus.Location = new System.Drawing.Point(99, 93);
+            this.lblFamilyStatus.Name = "lblFamilyStatus";
+            this.lblFamilyStatus.Size = new System.Drawing.Size(10, 13);
+            this.lblFamilyStatus.TabIndex = 6;
+            this.lblFamilyStatus.Text = " ";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(12, 93);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(72, 13);
+            this.label6.TabIndex = 5;
+            this.label6.Text = "Family Status:";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(12, 111);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(46, 13);
+            this.label7.TabIndex = 7;
+            this.label7.Text = "Siblings:";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(12, 303);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(44, 13);
+            this.label5.TabIndex = 9;
+            this.label5.Text = "Friends:";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(12, 396);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(50, 13);
+            this.label8.TabIndex = 11;
+            this.label8.Text = "Enemies:";
+            // 
+            // lblRelationshipStatus
+            // 
+            this.lblRelationshipStatus.AutoSize = true;
+            this.lblRelationshipStatus.Location = new System.Drawing.Point(384, 319);
+            this.lblRelationshipStatus.Name = "lblRelationshipStatus";
+            this.lblRelationshipStatus.Size = new System.Drawing.Size(10, 13);
+            this.lblRelationshipStatus.TabIndex = 16;
+            this.lblRelationshipStatus.Text = " ";
+            // 
+            // lblRelInfo
+            // 
+            this.lblRelInfo.AutoSize = true;
+            this.lblRelInfo.Location = new System.Drawing.Point(290, 353);
+            this.lblRelInfo.Name = "lblRelInfo";
+            this.lblRelInfo.Size = new System.Drawing.Size(10, 13);
+            this.lblRelInfo.TabIndex = 15;
+            this.lblRelInfo.Text = " ";
+            // 
+            // lblLoverName
+            // 
+            this.lblLoverName.AutoSize = true;
+            this.lblLoverName.Location = new System.Drawing.Point(290, 336);
+            this.lblLoverName.Name = "lblLoverName";
+            this.lblLoverName.Size = new System.Drawing.Size(10, 13);
+            this.lblLoverName.TabIndex = 14;
+            this.lblLoverName.Text = " ";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(277, 319);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(101, 13);
+            this.label12.TabIndex = 13;
+            this.label12.Text = "Relationship Status:";
+            // 
+            // tbxDisplaySelected
+            // 
+            this.tbxDisplaySelected.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbxDisplaySelected.Location = new System.Drawing.Point(277, 128);
+            this.tbxDisplaySelected.Multiline = true;
+            this.tbxDisplaySelected.Name = "tbxDisplaySelected";
+            this.tbxDisplaySelected.Size = new System.Drawing.Size(469, 172);
+            this.tbxDisplaySelected.TabIndex = 17;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(274, 112);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(52, 13);
+            this.label9.TabIndex = 18;
+            this.label9.Text = "Selected:";
+            // 
+            // lbxSiblings
+            // 
+            this.lbxSiblings.FormattingEnabled = true;
+            this.lbxSiblings.Location = new System.Drawing.Point(14, 127);
+            this.lbxSiblings.Name = "lbxSiblings";
+            this.lbxSiblings.Size = new System.Drawing.Size(257, 173);
+            this.lbxSiblings.TabIndex = 19;
+            this.lbxSiblings.SelectedIndexChanged += new System.EventHandler(this.lbxSiblings_SelectedIndexChanged);
+            // 
+            // lbxFriends
+            // 
+            this.lbxFriends.FormattingEnabled = true;
+            this.lbxFriends.Location = new System.Drawing.Point(14, 319);
+            this.lbxFriends.Name = "lbxFriends";
+            this.lbxFriends.Size = new System.Drawing.Size(257, 69);
+            this.lbxFriends.TabIndex = 20;
+            this.lbxFriends.SelectedIndexChanged += new System.EventHandler(this.lbxSiblings_SelectedIndexChanged);
+            // 
+            // lbxEnemies
+            // 
+            this.lbxEnemies.FormattingEnabled = true;
+            this.lbxEnemies.Location = new System.Drawing.Point(14, 412);
+            this.lbxEnemies.Name = "lbxEnemies";
+            this.lbxEnemies.Size = new System.Drawing.Size(257, 69);
+            this.lbxEnemies.TabIndex = 21;
+            this.lbxEnemies.SelectedIndexChanged += new System.EventHandler(this.lbxSiblings_SelectedIndexChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1045, 473);
+            this.ClientSize = new System.Drawing.Size(758, 594);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Name = "Form1";
@@ -212,10 +389,26 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Button btnGenName;
-        private System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.TextBox tbxDisplaySelected;
+        private System.Windows.Forms.Label lblRelationshipStatus;
+        private System.Windows.Forms.Label lblRelInfo;
+        private System.Windows.Forms.Label lblLoverName;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label lblFamilyStatus;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label lblParentStatus;
+        private System.Windows.Forms.Label lblParent2;
+        private System.Windows.Forms.Label lblParent1;
+        private System.Windows.Forms.ListBox lbxEnemies;
+        private System.Windows.Forms.ListBox lbxFriends;
+        private System.Windows.Forms.ListBox lbxSiblings;
     }
 }
 

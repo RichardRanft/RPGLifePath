@@ -45,7 +45,12 @@ namespace LifePath
         private void btnGenerate_Click(object sender, EventArgs e)
         {
             m_lifepath = m_lpgen.Generate(tbxFirstName.Text, tbxLastName.Text);
-            dumpPathData();
+            displayPathData();
+        }
+
+        private void displayPathData()
+        {
+            
         }
 
         private void dumpPathData()
@@ -121,6 +126,11 @@ namespace LifePath
             KeyValuePair<String, String> name = m_namegen.Generate();
             tbxFirstName.Text = name.Key;
             tbxLastName.Text = name.Value;
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            dumpPathData();
         }
     }
 }

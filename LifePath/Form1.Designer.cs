@@ -36,10 +36,12 @@
             this.label2 = new System.Windows.Forms.Label();
             this.btnLastName = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
             this.btnGenName = new System.Windows.Forms.Button();
-            this.label3 = new System.Windows.Forms.Label();
+            this.panel2 = new System.Windows.Forms.Panel();
             this.listBox1 = new System.Windows.Forms.ListBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.btnSave = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -108,6 +110,8 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.btnSave);
+            this.panel1.Controls.Add(this.label4);
             this.panel1.Controls.Add(this.btnGenName);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.tbxLastName);
@@ -118,19 +122,8 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1045, 91);
+            this.panel1.Size = new System.Drawing.Size(1045, 96);
             this.panel1.TabIndex = 7;
-            // 
-            // panel2
-            // 
-            this.panel2.Controls.Add(this.listBox1);
-            this.panel2.Controls.Add(this.label3);
-            this.panel2.Controls.Add(this.btnGenerate);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(0, 91);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1045, 382);
-            this.panel2.TabIndex = 8;
             // 
             // btnGenName
             // 
@@ -142,6 +135,25 @@
             this.btnGenName.UseVisualStyleBackColor = true;
             this.btnGenName.Click += new System.EventHandler(this.btnGenName_Click);
             // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.listBox1);
+            this.panel2.Controls.Add(this.label3);
+            this.panel2.Controls.Add(this.btnGenerate);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel2.Location = new System.Drawing.Point(0, 96);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(1045, 377);
+            this.panel2.TabIndex = 8;
+            // 
+            // listBox1
+            // 
+            this.listBox1.FormattingEnabled = true;
+            this.listBox1.Location = new System.Drawing.Point(11, 52);
+            this.listBox1.Name = "listBox1";
+            this.listBox1.Size = new System.Drawing.Size(260, 56);
+            this.listBox1.TabIndex = 2;
+            // 
             // label3
             // 
             this.label3.AutoSize = true;
@@ -151,13 +163,24 @@
             this.label3.TabIndex = 1;
             this.label3.Text = "Parent Status";
             // 
-            // listBox1
+            // label4
             // 
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(11, 52);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(179, 43);
-            this.listBox1.TabIndex = 2;
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(12, 77);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(247, 13);
+            this.label4.TabIndex = 8;
+            this.label4.Text = "LifePath table data copyright © R.Talsorian Games";
+            // 
+            // btnSave
+            // 
+            this.btnSave.Location = new System.Drawing.Point(381, 51);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(114, 23);
+            this.btnSave.TabIndex = 9;
+            this.btnSave.Text = "Save to File";
+            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // Form1
             // 
@@ -167,7 +190,7 @@
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "LifePath Generator";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
@@ -191,6 +214,8 @@
         private System.Windows.Forms.Button btnGenName;
         private System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button btnSave;
+        private System.Windows.Forms.Label label4;
     }
 }
 

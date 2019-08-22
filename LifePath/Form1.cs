@@ -130,7 +130,8 @@ namespace LifePath
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            dumpPathData();
+            if (m_lifepath != null)
+                dumpPathData();
         }
     }
 }

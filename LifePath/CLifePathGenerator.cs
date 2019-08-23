@@ -124,9 +124,9 @@ namespace LifePath
             int enemies = 1;
             roll = m_rand.Next(11);
             if (roll >= 5 && roll <= 8)
-                friends = 2;
+                enemies = 2;
             if (roll >= 9)
-                friends = 3;
+                enemies = 3;
             for (int i = 0; i < enemies; ++i)
             {
                 CActor enemy = new CActor();

@@ -170,5 +170,41 @@ namespace LifePath
                 tbxDisplaySelected.Text = actor.GetDescription();
             }
         }
+
+        private void lblItemReroll_Click(object sender, EventArgs e)
+        {
+            if (m_lifepath == null)
+                return;
+            Label clicked = (Label)sender;
+            if(!clicked.Name.Contains("Reroll"))
+            {
+                switch(clicked.Name)
+                {
+                    case "lblParent1":
+                        m_lifepath.Parents[0].FirstName = m_namegen.GetFirstName();
+                        break;
+                    case "lblParent2":
+                        m_lifepath.Parents[1].FirstName = m_namegen.GetFirstName();
+                        break;
+                    case "lblLoverName":
+                        m_lifepath.Lover.FirstName = m_namegen.GetFirstName();
+                        m_lifepath.Lover.LastName = m_namegen.GetLastName();
+                        break;
+                }
+            }
+            if (clicked == lblParentReroll)
+                m_lpgen.RollParents(ref m_lifepath);
+            if (clicked == lblFamilyReroll)
+                m_lpgen.RollFamilySituation(ref m_lifepath);
+            if (clicked == lblSiblingReroll)
+                m_lpgen.RollSiblings(ref m_lifepath);
+            if (clicked == lblFriendsReroll)
+                m_lpgen.RollFriends(ref m_lifepath);
+            if (clicked == lblEnemiesReroll)
+                m_lpgen.RollEnemies(ref m_lifepath);
+            if (clicked == lblRelationshipReroll)
+                m_lpgen.RollRomance(ref m_lifepath);
+            displayPathData();
+        }
     }
 }

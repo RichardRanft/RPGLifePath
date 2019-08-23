@@ -76,6 +76,40 @@ namespace LifePath
             getFamilySituation(ref path);
         }
 
+        public void RollParents(ref CLifePath path)
+        {
+            path.Parents.Clear();
+            String parentStatus = getResult(m_pathData.Tables["Parents"]);
+            if (parentStatus == "@BothLiving")
+            {
+                path.ParentStatus = getResult(m_pathData.Tables["BothLiving"]);
+                CNameGenerator namegen = new CNameGenerator(m_pathData);
+                for (int i = 0; i < 2; ++i)
+                {
+                    CActor parent = new CActor();
+                    parent.FirstName = namegen.GetFirstName();
+                    parent.LastName = path.LastName;
+                    path.AddParent(parent);
+                }
+            }
+            else
+            {
+                path.ParentStatus = getResult(m_pathData.Tables["Other"]);
+                if (path.ParentStatus.Contains("(s)"))
+                {
+                    int coin = m_rand.Next(2);
+                    if (coin > 0)
+                    {
+                        CNameGenerator namegen = new CNameGenerator(m_pathData);
+                        CActor parent = new CActor();
+                        parent.FirstName = namegen.GetFirstName();
+                        parent.LastName = path.LastName;
+                        path.AddParent(parent);
+                    }
+                }
+            }
+        }
+
         private void getFamilySituation(ref CLifePath path)
         {
             String familySituation = getResult(m_pathData.Tables["FamilyStanding"]);
@@ -102,6 +136,53 @@ namespace LifePath
                 path.LifeGoal = getResult(m_pathData.Tables["LifeGoal"]);
             }
             getFriendsAndEnemies(ref path);
+        }
+
+        public void RollFamilySituation(ref CLifePath path)
+        {
+            path.Siblings.Clear();
+            String familySituation = getResult(m_pathData.Tables["FamilyStanding"]);
+            if (familySituation == "@Siblings")
+            {
+                String sibnum = getResult(m_pathData.Tables["Siblings"]);
+                if (sibnum != "0")
+                {
+                    CNameGenerator namegen = new CNameGenerator(m_pathData);
+                    int num = int.Parse(sibnum);
+                    for (int i = 0; i < num; ++i)
+                    {
+                        CActor sibling = new CActor();
+                        sibling.FirstName = namegen.GetFirstName();
+                        sibling.LastName = path.LastName;
+                        sibling.Relationship = getResult(m_pathData.Tables["SiblingRel"]);
+                        path.AddSibling(sibling);
+                    }
+                }
+            }
+            else
+            {
+                path.FamilyStatus = getResult(m_pathData.Tables["FamilyMisfortune"]);
+                path.LifeGoal = getResult(m_pathData.Tables["LifeGoal"]);
+            }
+        }
+
+        public void RollSiblings(ref CLifePath path)
+        {
+            path.Siblings.Clear();
+            String sibnum = getResult(m_pathData.Tables["Siblings"]);
+            if (sibnum != "0")
+            {
+                CNameGenerator namegen = new CNameGenerator(m_pathData);
+                int num = int.Parse(sibnum);
+                for (int i = 0; i < num; ++i)
+                {
+                    CActor sibling = new CActor();
+                    sibling.FirstName = namegen.GetFirstName();
+                    sibling.LastName = path.LastName;
+                    sibling.Relationship = getResult(m_pathData.Tables["SiblingRel"]);
+                    path.AddSibling(sibling);
+                }
+            }
         }
 
         private void getFriendsAndEnemies(ref CLifePath path)
@@ -141,11 +222,77 @@ namespace LifePath
             getRomanticLife(ref path);
         }
 
+        public void RollFriends(ref CLifePath path)
+        {
+            path.Friends.Clear();
+            int friends = 1;
+            int roll = m_rand.Next(11);
+            if (roll >= 5 && roll <= 8)
+                friends = 2;
+            if (roll >= 9)
+                friends = 3;
+            CNameGenerator namegen = new CNameGenerator(m_pathData);
+            for (int i = 0; i < friends; ++i)
+            {
+                CActor friend = new CActor();
+                friend.FirstName = namegen.GetFirstName();
+                friend.LastName = namegen.GetLastName();
+                friend.Relationship = getResult(m_pathData.Tables["Friends"]);
+                path.AddFriend(friend);
+            }
+        }
+
+        public void RollEnemies(ref CLifePath path)
+        {
+            path.Enemies.Clear();
+            int enemies = 1;
+            int roll = m_rand.Next(11);
+            if (roll >= 5 && roll <= 8)
+                enemies = 2;
+            if (roll >= 9)
+                enemies = 3;
+            CNameGenerator namegen = new CNameGenerator(m_pathData);
+            for (int i = 0; i < enemies; ++i)
+            {
+                CActor enemy = new CActor();
+                enemy.FirstName = namegen.GetFirstName();
+                enemy.LastName = namegen.GetLastName();
+                enemy.Relationship = getResult(m_pathData.Tables["Enemies"]);
+                enemy.Origin = getResult(m_pathData.Tables["EnemyOrigin"]);
+                enemy.Status = getResult(m_pathData.Tables["EnemyStatus"]);
+                enemy.Reaction = getResult(m_pathData.Tables["EnemyReaction"]);
+                path.AddEnemy(enemy);
+            }
+        }
+
         private void getRomanticLife(ref CLifePath path)
         {
             String romance = getResult(m_pathData.Tables["Romance"]);
             CNameGenerator namegen = new CNameGenerator(m_pathData);
             switch(romance)
+            {
+                case "@RelationshipStatus":
+                    path.Lover.FirstName = namegen.GetFirstName();
+                    path.Lover.LastName = namegen.GetLastName();
+                    path.Lover.Relationship = getResult(m_pathData.Tables["RelationshipStatus"]);
+                    path.RomanceStatus = "In a relationship.";
+                    break;
+                case "@SingleStatus":
+                    path.RomanceStatus = getResult(m_pathData.Tables["SingleStatus"]);
+                    break;
+                case "@ReboundStatus":
+                    path.RomanceStatus = getResult(m_pathData.Tables["ReboundStatus"]);
+                    getExStatus(ref path);
+                    break;
+            }
+        }
+
+        public void RollRomance(ref CLifePath path)
+        {
+            path.Lover = new CActor();
+            String romance = getResult(m_pathData.Tables["Romance"]);
+            CNameGenerator namegen = new CNameGenerator(m_pathData);
+            switch (romance)
             {
                 case "@RelationshipStatus":
                     path.Lover.FirstName = namegen.GetFirstName();

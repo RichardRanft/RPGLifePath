@@ -36,28 +36,28 @@
             this.label2 = new System.Windows.Forms.Label();
             this.btnLastName = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnSave = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
             this.btnGenName = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.btnSave = new System.Windows.Forms.Button();
-            this.lblParent1 = new System.Windows.Forms.Label();
-            this.lblParent2 = new System.Windows.Forms.Label();
-            this.lblParentStatus = new System.Windows.Forms.Label();
-            this.lblFamilyStatus = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
+            this.lbxEnemies = new System.Windows.Forms.ListBox();
+            this.lbxFriends = new System.Windows.Forms.ListBox();
+            this.lbxSiblings = new System.Windows.Forms.ListBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.tbxDisplaySelected = new System.Windows.Forms.TextBox();
             this.lblRelationshipStatus = new System.Windows.Forms.Label();
             this.lblRelInfo = new System.Windows.Forms.Label();
             this.lblLoverName = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
-            this.tbxDisplaySelected = new System.Windows.Forms.TextBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.lbxSiblings = new System.Windows.Forms.ListBox();
-            this.lbxFriends = new System.Windows.Forms.ListBox();
-            this.lbxEnemies = new System.Windows.Forms.ListBox();
+            this.lblRelationshipReroll = new System.Windows.Forms.Label();
+            this.lblEnemiesReroll = new System.Windows.Forms.Label();
+            this.lblFriendsReroll = new System.Windows.Forms.Label();
+            this.lblSiblingReroll = new System.Windows.Forms.Label();
+            this.lblFamilyStatus = new System.Windows.Forms.Label();
+            this.lblFamilyReroll = new System.Windows.Forms.Label();
+            this.lblParentStatus = new System.Windows.Forms.Label();
+            this.lblParent2 = new System.Windows.Forms.Label();
+            this.lblParent1 = new System.Windows.Forms.Label();
+            this.lblParentReroll = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -141,6 +141,25 @@
             this.panel1.Size = new System.Drawing.Size(758, 96);
             this.panel1.TabIndex = 7;
             // 
+            // btnSave
+            // 
+            this.btnSave.Location = new System.Drawing.Point(381, 51);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(114, 23);
+            this.btnSave.TabIndex = 9;
+            this.btnSave.Text = "Save to File";
+            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(12, 77);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(247, 13);
+            this.label4.TabIndex = 8;
+            this.label4.Text = "LifePath table data copyright © R.Talsorian Games";
+            // 
             // btnGenName
             // 
             this.btnGenName.Location = new System.Drawing.Point(381, 23);
@@ -161,16 +180,16 @@
             this.panel2.Controls.Add(this.lblRelationshipStatus);
             this.panel2.Controls.Add(this.lblRelInfo);
             this.panel2.Controls.Add(this.lblLoverName);
-            this.panel2.Controls.Add(this.label12);
-            this.panel2.Controls.Add(this.label8);
-            this.panel2.Controls.Add(this.label5);
-            this.panel2.Controls.Add(this.label7);
+            this.panel2.Controls.Add(this.lblRelationshipReroll);
+            this.panel2.Controls.Add(this.lblEnemiesReroll);
+            this.panel2.Controls.Add(this.lblFriendsReroll);
+            this.panel2.Controls.Add(this.lblSiblingReroll);
             this.panel2.Controls.Add(this.lblFamilyStatus);
-            this.panel2.Controls.Add(this.label6);
+            this.panel2.Controls.Add(this.lblFamilyReroll);
             this.panel2.Controls.Add(this.lblParentStatus);
             this.panel2.Controls.Add(this.lblParent2);
             this.panel2.Controls.Add(this.lblParent1);
-            this.panel2.Controls.Add(this.label3);
+            this.panel2.Controls.Add(this.lblParentReroll);
             this.panel2.Controls.Add(this.btnGenerate);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(0, 96);
@@ -178,105 +197,50 @@
             this.panel2.Size = new System.Drawing.Size(758, 498);
             this.panel2.TabIndex = 8;
             // 
-            // label3
+            // lbxEnemies
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(11, 36);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(74, 13);
-            this.label3.TabIndex = 1;
-            this.label3.Text = "Parent Status:";
+            this.lbxEnemies.FormattingEnabled = true;
+            this.lbxEnemies.Location = new System.Drawing.Point(14, 412);
+            this.lbxEnemies.Name = "lbxEnemies";
+            this.lbxEnemies.Size = new System.Drawing.Size(257, 69);
+            this.lbxEnemies.TabIndex = 21;
+            this.lbxEnemies.SelectedIndexChanged += new System.EventHandler(this.lbxSiblings_SelectedIndexChanged);
             // 
-            // label4
+            // lbxFriends
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 77);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(247, 13);
-            this.label4.TabIndex = 8;
-            this.label4.Text = "LifePath table data copyright © R.Talsorian Games";
+            this.lbxFriends.FormattingEnabled = true;
+            this.lbxFriends.Location = new System.Drawing.Point(14, 319);
+            this.lbxFriends.Name = "lbxFriends";
+            this.lbxFriends.Size = new System.Drawing.Size(257, 69);
+            this.lbxFriends.TabIndex = 20;
+            this.lbxFriends.SelectedIndexChanged += new System.EventHandler(this.lbxSiblings_SelectedIndexChanged);
             // 
-            // btnSave
+            // lbxSiblings
             // 
-            this.btnSave.Location = new System.Drawing.Point(381, 51);
-            this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(114, 23);
-            this.btnSave.TabIndex = 9;
-            this.btnSave.Text = "Save to File";
-            this.btnSave.UseVisualStyleBackColor = true;
-            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            this.lbxSiblings.FormattingEnabled = true;
+            this.lbxSiblings.Location = new System.Drawing.Point(14, 127);
+            this.lbxSiblings.Name = "lbxSiblings";
+            this.lbxSiblings.Size = new System.Drawing.Size(257, 173);
+            this.lbxSiblings.TabIndex = 19;
+            this.lbxSiblings.SelectedIndexChanged += new System.EventHandler(this.lbxSiblings_SelectedIndexChanged);
             // 
-            // lblParent1
+            // label9
             // 
-            this.lblParent1.AutoSize = true;
-            this.lblParent1.Location = new System.Drawing.Point(24, 53);
-            this.lblParent1.Name = "lblParent1";
-            this.lblParent1.Size = new System.Drawing.Size(10, 13);
-            this.lblParent1.TabIndex = 2;
-            this.lblParent1.Text = " ";
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(274, 112);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(52, 13);
+            this.label9.TabIndex = 18;
+            this.label9.Text = "Selected:";
             // 
-            // lblParent2
+            // tbxDisplaySelected
             // 
-            this.lblParent2.AutoSize = true;
-            this.lblParent2.Location = new System.Drawing.Point(24, 70);
-            this.lblParent2.Name = "lblParent2";
-            this.lblParent2.Size = new System.Drawing.Size(10, 13);
-            this.lblParent2.TabIndex = 3;
-            this.lblParent2.Text = " ";
-            // 
-            // lblParentStatus
-            // 
-            this.lblParentStatus.AutoSize = true;
-            this.lblParentStatus.Location = new System.Drawing.Point(99, 36);
-            this.lblParentStatus.Name = "lblParentStatus";
-            this.lblParentStatus.Size = new System.Drawing.Size(10, 13);
-            this.lblParentStatus.TabIndex = 4;
-            this.lblParentStatus.Text = " ";
-            // 
-            // lblFamilyStatus
-            // 
-            this.lblFamilyStatus.AutoSize = true;
-            this.lblFamilyStatus.Location = new System.Drawing.Point(99, 93);
-            this.lblFamilyStatus.Name = "lblFamilyStatus";
-            this.lblFamilyStatus.Size = new System.Drawing.Size(10, 13);
-            this.lblFamilyStatus.TabIndex = 6;
-            this.lblFamilyStatus.Text = " ";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(12, 93);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(72, 13);
-            this.label6.TabIndex = 5;
-            this.label6.Text = "Family Status:";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(12, 111);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(46, 13);
-            this.label7.TabIndex = 7;
-            this.label7.Text = "Siblings:";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(12, 303);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(44, 13);
-            this.label5.TabIndex = 9;
-            this.label5.Text = "Friends:";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(12, 396);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(50, 13);
-            this.label8.TabIndex = 11;
-            this.label8.Text = "Enemies:";
+            this.tbxDisplaySelected.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbxDisplaySelected.Location = new System.Drawing.Point(277, 128);
+            this.tbxDisplaySelected.Multiline = true;
+            this.tbxDisplaySelected.Name = "tbxDisplaySelected";
+            this.tbxDisplaySelected.Size = new System.Drawing.Size(469, 172);
+            this.tbxDisplaySelected.TabIndex = 17;
             // 
             // lblRelationshipStatus
             // 
@@ -299,65 +263,119 @@
             // lblLoverName
             // 
             this.lblLoverName.AutoSize = true;
+            this.lblLoverName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblLoverName.Location = new System.Drawing.Point(290, 336);
             this.lblLoverName.Name = "lblLoverName";
-            this.lblLoverName.Size = new System.Drawing.Size(10, 13);
+            this.lblLoverName.Size = new System.Drawing.Size(11, 13);
             this.lblLoverName.TabIndex = 14;
             this.lblLoverName.Text = " ";
+            this.lblLoverName.Click += new System.EventHandler(this.lblItemReroll_Click);
             // 
-            // label12
+            // lblRelationshipReroll
             // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(277, 319);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(101, 13);
-            this.label12.TabIndex = 13;
-            this.label12.Text = "Relationship Status:";
+            this.lblRelationshipReroll.AutoSize = true;
+            this.lblRelationshipReroll.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblRelationshipReroll.Location = new System.Drawing.Point(277, 319);
+            this.lblRelationshipReroll.Name = "lblRelationshipReroll";
+            this.lblRelationshipReroll.Size = new System.Drawing.Size(121, 13);
+            this.lblRelationshipReroll.TabIndex = 13;
+            this.lblRelationshipReroll.Text = "Relationship Status:";
+            this.lblRelationshipReroll.Click += new System.EventHandler(this.lblItemReroll_Click);
             // 
-            // tbxDisplaySelected
+            // lblEnemiesReroll
             // 
-            this.tbxDisplaySelected.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbxDisplaySelected.Location = new System.Drawing.Point(277, 128);
-            this.tbxDisplaySelected.Multiline = true;
-            this.tbxDisplaySelected.Name = "tbxDisplaySelected";
-            this.tbxDisplaySelected.Size = new System.Drawing.Size(469, 172);
-            this.tbxDisplaySelected.TabIndex = 17;
+            this.lblEnemiesReroll.AutoSize = true;
+            this.lblEnemiesReroll.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblEnemiesReroll.Location = new System.Drawing.Point(12, 396);
+            this.lblEnemiesReroll.Name = "lblEnemiesReroll";
+            this.lblEnemiesReroll.Size = new System.Drawing.Size(58, 13);
+            this.lblEnemiesReroll.TabIndex = 11;
+            this.lblEnemiesReroll.Text = "Enemies:";
+            this.lblEnemiesReroll.Click += new System.EventHandler(this.lblItemReroll_Click);
             // 
-            // label9
+            // lblFriendsReroll
             // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(274, 112);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(52, 13);
-            this.label9.TabIndex = 18;
-            this.label9.Text = "Selected:";
+            this.lblFriendsReroll.AutoSize = true;
+            this.lblFriendsReroll.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblFriendsReroll.Location = new System.Drawing.Point(12, 303);
+            this.lblFriendsReroll.Name = "lblFriendsReroll";
+            this.lblFriendsReroll.Size = new System.Drawing.Size(52, 13);
+            this.lblFriendsReroll.TabIndex = 9;
+            this.lblFriendsReroll.Text = "Friends:";
+            this.lblFriendsReroll.Click += new System.EventHandler(this.lblItemReroll_Click);
             // 
-            // lbxSiblings
+            // lblSiblingReroll
             // 
-            this.lbxSiblings.FormattingEnabled = true;
-            this.lbxSiblings.Location = new System.Drawing.Point(14, 127);
-            this.lbxSiblings.Name = "lbxSiblings";
-            this.lbxSiblings.Size = new System.Drawing.Size(257, 173);
-            this.lbxSiblings.TabIndex = 19;
-            this.lbxSiblings.SelectedIndexChanged += new System.EventHandler(this.lbxSiblings_SelectedIndexChanged);
+            this.lblSiblingReroll.AutoSize = true;
+            this.lblSiblingReroll.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSiblingReroll.Location = new System.Drawing.Point(12, 111);
+            this.lblSiblingReroll.Name = "lblSiblingReroll";
+            this.lblSiblingReroll.Size = new System.Drawing.Size(55, 13);
+            this.lblSiblingReroll.TabIndex = 7;
+            this.lblSiblingReroll.Text = "Siblings:";
+            this.lblSiblingReroll.Click += new System.EventHandler(this.lblItemReroll_Click);
             // 
-            // lbxFriends
+            // lblFamilyStatus
             // 
-            this.lbxFriends.FormattingEnabled = true;
-            this.lbxFriends.Location = new System.Drawing.Point(14, 319);
-            this.lbxFriends.Name = "lbxFriends";
-            this.lbxFriends.Size = new System.Drawing.Size(257, 69);
-            this.lbxFriends.TabIndex = 20;
-            this.lbxFriends.SelectedIndexChanged += new System.EventHandler(this.lbxSiblings_SelectedIndexChanged);
+            this.lblFamilyStatus.AutoSize = true;
+            this.lblFamilyStatus.Location = new System.Drawing.Point(99, 93);
+            this.lblFamilyStatus.Name = "lblFamilyStatus";
+            this.lblFamilyStatus.Size = new System.Drawing.Size(10, 13);
+            this.lblFamilyStatus.TabIndex = 6;
+            this.lblFamilyStatus.Text = " ";
             // 
-            // lbxEnemies
+            // lblFamilyReroll
             // 
-            this.lbxEnemies.FormattingEnabled = true;
-            this.lbxEnemies.Location = new System.Drawing.Point(14, 412);
-            this.lbxEnemies.Name = "lbxEnemies";
-            this.lbxEnemies.Size = new System.Drawing.Size(257, 69);
-            this.lbxEnemies.TabIndex = 21;
-            this.lbxEnemies.SelectedIndexChanged += new System.EventHandler(this.lbxSiblings_SelectedIndexChanged);
+            this.lblFamilyReroll.AutoSize = true;
+            this.lblFamilyReroll.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblFamilyReroll.Location = new System.Drawing.Point(12, 93);
+            this.lblFamilyReroll.Name = "lblFamilyReroll";
+            this.lblFamilyReroll.Size = new System.Drawing.Size(86, 13);
+            this.lblFamilyReroll.TabIndex = 5;
+            this.lblFamilyReroll.Text = "Family Status:";
+            this.lblFamilyReroll.Click += new System.EventHandler(this.lblItemReroll_Click);
+            // 
+            // lblParentStatus
+            // 
+            this.lblParentStatus.AutoSize = true;
+            this.lblParentStatus.Location = new System.Drawing.Point(99, 36);
+            this.lblParentStatus.Name = "lblParentStatus";
+            this.lblParentStatus.Size = new System.Drawing.Size(10, 13);
+            this.lblParentStatus.TabIndex = 4;
+            this.lblParentStatus.Text = " ";
+            // 
+            // lblParent2
+            // 
+            this.lblParent2.AutoSize = true;
+            this.lblParent2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblParent2.Location = new System.Drawing.Point(24, 70);
+            this.lblParent2.Name = "lblParent2";
+            this.lblParent2.Size = new System.Drawing.Size(11, 13);
+            this.lblParent2.TabIndex = 3;
+            this.lblParent2.Text = " ";
+            this.lblParent2.Click += new System.EventHandler(this.lblItemReroll_Click);
+            // 
+            // lblParent1
+            // 
+            this.lblParent1.AutoSize = true;
+            this.lblParent1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblParent1.Location = new System.Drawing.Point(24, 53);
+            this.lblParent1.Name = "lblParent1";
+            this.lblParent1.Size = new System.Drawing.Size(11, 13);
+            this.lblParent1.TabIndex = 2;
+            this.lblParent1.Text = " ";
+            this.lblParent1.Click += new System.EventHandler(this.lblItemReroll_Click);
+            // 
+            // lblParentReroll
+            // 
+            this.lblParentReroll.AutoSize = true;
+            this.lblParentReroll.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblParentReroll.Location = new System.Drawing.Point(11, 36);
+            this.lblParentReroll.Name = "lblParentReroll";
+            this.lblParentReroll.Size = new System.Drawing.Size(88, 13);
+            this.lblParentReroll.TabIndex = 1;
+            this.lblParentReroll.Text = "Parent Status:";
+            this.lblParentReroll.Click += new System.EventHandler(this.lblItemReroll_Click);
             // 
             // Form1
             // 
@@ -389,7 +407,7 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Button btnGenName;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label lblParentReroll;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label9;
@@ -397,12 +415,12 @@
         private System.Windows.Forms.Label lblRelationshipStatus;
         private System.Windows.Forms.Label lblRelInfo;
         private System.Windows.Forms.Label lblLoverName;
-        private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label lblRelationshipReroll;
+        private System.Windows.Forms.Label lblEnemiesReroll;
+        private System.Windows.Forms.Label lblFriendsReroll;
+        private System.Windows.Forms.Label lblSiblingReroll;
         private System.Windows.Forms.Label lblFamilyStatus;
-        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label lblFamilyReroll;
         private System.Windows.Forms.Label lblParentStatus;
         private System.Windows.Forms.Label lblParent2;
         private System.Windows.Forms.Label lblParent1;

@@ -205,6 +205,7 @@
             this.lbxEnemies.Size = new System.Drawing.Size(257, 69);
             this.lbxEnemies.TabIndex = 21;
             this.lbxEnemies.SelectedIndexChanged += new System.EventHandler(this.lbxSiblings_SelectedIndexChanged);
+            this.lbxEnemies.Leave += new System.EventHandler(this.lbxPeople_Leave);
             // 
             // lbxFriends
             // 
@@ -214,6 +215,7 @@
             this.lbxFriends.Size = new System.Drawing.Size(257, 69);
             this.lbxFriends.TabIndex = 20;
             this.lbxFriends.SelectedIndexChanged += new System.EventHandler(this.lbxSiblings_SelectedIndexChanged);
+            this.lbxFriends.Leave += new System.EventHandler(this.lbxPeople_Leave);
             // 
             // lbxSiblings
             // 
@@ -223,6 +225,7 @@
             this.lbxSiblings.Size = new System.Drawing.Size(257, 173);
             this.lbxSiblings.TabIndex = 19;
             this.lbxSiblings.SelectedIndexChanged += new System.EventHandler(this.lbxSiblings_SelectedIndexChanged);
+            this.lbxSiblings.Leave += new System.EventHandler(this.lbxPeople_Leave);
             // 
             // label9
             // 

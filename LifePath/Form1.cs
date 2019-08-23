@@ -206,5 +206,11 @@ namespace LifePath
                 m_lpgen.RollRomance(ref m_lifepath);
             displayPathData();
         }
+
+        private void lbxPeople_Leave(object sender, EventArgs e)
+        {
+            ListBox box = (ListBox)sender;
+            box.SelectedIndex = -1;
+        }
     }
 }

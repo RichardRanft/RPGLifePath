@@ -248,7 +248,7 @@
             // lblRelationshipStatus
             // 
             this.lblRelationshipStatus.AutoSize = true;
-            this.lblRelationshipStatus.Location = new System.Drawing.Point(384, 319);
+            this.lblRelationshipStatus.Location = new System.Drawing.Point(401, 319);
             this.lblRelationshipStatus.Name = "lblRelationshipStatus";
             this.lblRelationshipStatus.Size = new System.Drawing.Size(10, 13);
             this.lblRelationshipStatus.TabIndex = 16;
@@ -321,7 +321,7 @@
             // lblFamilyStatus
             // 
             this.lblFamilyStatus.AutoSize = true;
-            this.lblFamilyStatus.Location = new System.Drawing.Point(99, 93);
+            this.lblFamilyStatus.Location = new System.Drawing.Point(102, 93);
             this.lblFamilyStatus.Name = "lblFamilyStatus";
             this.lblFamilyStatus.Size = new System.Drawing.Size(10, 13);
             this.lblFamilyStatus.TabIndex = 6;

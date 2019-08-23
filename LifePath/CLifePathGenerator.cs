@@ -188,38 +188,8 @@ namespace LifePath
 
         private void getFriendsAndEnemies(ref CLifePath path)
         {
-            int friends = 1;
-            int roll = m_rand.Next(11);
-            if (roll >= 5 && roll <= 8)
-                friends = 2;
-            if (roll >= 9)
-                friends = 3;
-            CNameGenerator namegen = new CNameGenerator(m_pathData);
-            for (int i = 0; i < friends; ++i)
-            {
-                CActor friend = new CActor();
-                friend.FirstName = namegen.GetFirstName();
-                friend.LastName = namegen.GetLastName();
-                friend.Relationship = getResult(m_pathData.Tables["Friends"]);
-                path.AddFriend(friend);
-            }
-            int enemies = 1;
-            roll = m_rand.Next(11);
-            if (roll >= 5 && roll <= 8)
-                enemies = 2;
-            if (roll >= 9)
-                enemies = 3;
-            for (int i = 0; i < enemies; ++i)
-            {
-                CActor enemy = new CActor();
-                enemy.FirstName = namegen.GetFirstName();
-                enemy.LastName = namegen.GetLastName();
-                enemy.Relationship = getResult(m_pathData.Tables["Enemies"]);
-                enemy.Origin = getResult(m_pathData.Tables["EnemyOrigin"]);
-                enemy.Status = getResult(m_pathData.Tables["EnemyStatus"]);
-                enemy.Reaction = getResult(m_pathData.Tables["EnemyReaction"]);
-                path.AddEnemy(enemy);
-            }
+            RollFriends(ref path);
+            RollEnemies(ref path);
             getRomanticLife(ref path);
         }
 

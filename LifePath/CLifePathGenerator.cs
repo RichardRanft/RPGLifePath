@@ -140,6 +140,7 @@ namespace LifePath
 
         public void RollFamilySituation(ref CLifePath path)
         {
+            path.FamilyStatus = "Normal";
             path.Siblings.Clear();
             String familySituation = getResult(m_pathData.Tables["FamilyStanding"]);
             if (familySituation == "@Siblings")

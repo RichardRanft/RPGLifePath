@@ -141,11 +141,13 @@ namespace LifePath
         private void btnFirstName_Click(object sender, EventArgs e)
         {
             tbxFirstName.Text = m_namegen.GetFirstName();
+            updatePath();
         }
 
         private void btnLastName_Click(object sender, EventArgs e)
         {
             tbxLastName.Text = m_namegen.GetLastName();
+            updatePath();
         }
 
         private void btnGenName_Click(object sender, EventArgs e)
@@ -153,6 +155,27 @@ namespace LifePath
             KeyValuePair<String, String> name = m_namegen.Generate();
             tbxFirstName.Text = name.Key;
             tbxLastName.Text = name.Value;
+            updatePath();
+        }
+
+        private void updatePath()
+        {
+            if(m_lifepath != null)
+            {
+                m_lifepath.FirstName = tbxFirstName.Text;
+                m_lifepath.LastName = tbxLastName.Text;
+                if(m_lifepath.Parents.Count > 0)
+                {
+                    foreach (CActor actor in m_lifepath.Parents)
+                        actor.LastName = m_lifepath.LastName;
+                }
+                if (m_lifepath.Siblings.Count > 0)
+                {
+                    foreach (CActor actor in m_lifepath.Siblings)
+                        actor.LastName = m_lifepath.LastName;
+                }
+                displayPathData();
+            }
         }
 
         private void btnSave_Click(object sender, EventArgs e)

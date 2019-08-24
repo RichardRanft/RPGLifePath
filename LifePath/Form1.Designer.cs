@@ -97,6 +97,7 @@
             this.tbxFirstName.Name = "tbxFirstName";
             this.tbxFirstName.Size = new System.Drawing.Size(179, 20);
             this.tbxFirstName.TabIndex = 3;
+            this.tbxFirstName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tbxName_KeyDown);
             // 
             // tbxLastName
             // 
@@ -104,6 +105,7 @@
             this.tbxLastName.Name = "tbxLastName";
             this.tbxLastName.Size = new System.Drawing.Size(179, 20);
             this.tbxLastName.TabIndex = 6;
+            this.tbxLastName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tbxName_KeyDown);
             // 
             // label2
             // 

@@ -235,5 +235,26 @@ namespace LifePath
             ListBox box = (ListBox)sender;
             box.SelectedIndex = -1;
         }
+
+        private void tbxName_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (m_lifepath == null)
+                return;
+            if (e.KeyCode != Keys.Return)
+                return;
+            TextBox box = (TextBox)sender;
+            if (box == tbxFirstName)
+            {
+                m_lifepath.FirstName = tbxFirstName.Text;
+                updatePath();
+            }
+            if (box == tbxLastName)
+            {
+                m_lifepath.LastName = tbxLastName.Text;
+                updatePath();
+            }
+            e.Handled = true;
+            e.SuppressKeyPress = true;
+        }
     }
 }

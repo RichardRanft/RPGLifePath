@@ -1,12 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.IO;
-using System.Windows.Forms;
 
 namespace LifePath
 {
@@ -60,10 +53,10 @@ namespace LifePath
             else
             {
                 path.ParentStatus = getResult(m_pathData.Tables["Other"]);
-                if(path.ParentStatus.Contains("(s)"))
+                if (path.ParentStatus.Contains("(s)"))
                 {
                     int coin = m_rand.Next(2);
-                    if(coin > 0)
+                    if (coin > 0)
                     {
                         CNameGenerator namegen = new CNameGenerator(m_pathData);
                         CActor parent = new CActor();
@@ -113,14 +106,14 @@ namespace LifePath
         private void getFamilySituation(ref CLifePath path)
         {
             String familySituation = getResult(m_pathData.Tables["FamilyStanding"]);
-            if(familySituation == "@Siblings")
+            if (familySituation == "@Siblings")
             {
                 String sibnum = getResult(m_pathData.Tables["Siblings"]);
-                if(sibnum != "0")
+                if (sibnum != "0")
                 {
                     CNameGenerator namegen = new CNameGenerator(m_pathData);
                     int num = int.Parse(sibnum);
-                    for(int i = 0; i < num; ++i)
+                    for (int i = 0; i < num; ++i)
                     {
                         CActor sibling = new CActor();
                         sibling.FirstName = namegen.GetFirstName();
@@ -240,7 +233,7 @@ namespace LifePath
         {
             String romance = getResult(m_pathData.Tables["Romance"]);
             CNameGenerator namegen = new CNameGenerator(m_pathData);
-            switch(romance)
+            switch (romance)
             {
                 case "@RelationshipStatus":
                     path.Lover.FirstName = namegen.GetFirstName();
@@ -283,7 +276,7 @@ namespace LifePath
 
         private void getExStatus(ref CLifePath path)
         {
-            switch(path.RomanceStatus)
+            switch (path.RomanceStatus)
             {
                 case "They died in a war":
                     break;
@@ -301,16 +294,16 @@ namespace LifePath
         private string getResult(DataTable table)
         {
             string result = "";
-
-            int roll = m_rand.Next(1, 11);
+            Tuple<int, int> range = getRange(table);
+            int roll = m_rand.Next(range.Item1, range.Item2 + 1);
             int low = 0;
             int high = 0;
-            foreach(DataRow row in table.Rows)
+            foreach (DataRow row in table.Rows)
             {
                 String l = row["rlow"].ToString();
                 String h = row["rhigh"].ToString();
                 String r = row["result"].ToString();
-                if(String.IsNullOrEmpty(h))
+                if (String.IsNullOrEmpty(h))
                 {
                     low = int.Parse(l);
                     if (roll == low)
@@ -338,6 +331,38 @@ namespace LifePath
             }
 
             return result;
+        }
+
+        private Tuple<int, int> getRange(DataTable table)
+        {
+            Tuple<int, int> range = new Tuple<int, int>(0, 0);
+            int lval = 1;
+            int hval = 1;
+            int low = 0;
+            int high = 0;
+            foreach (DataRow row in table.Rows)
+            {
+                String l = row["rlow"].ToString();
+                String h = row["rhigh"].ToString();
+                if (!String.IsNullOrEmpty(l))
+                {
+                    low = int.Parse(l);
+                    if (low < lval)
+                    {
+                        lval = low;
+                    }
+                }
+                if (!String.IsNullOrEmpty(h))
+                {
+                    high = int.Parse(h);
+                    if (hval < high)
+                    {
+                        hval = high;
+                    }
+                }
+            }
+            range = new Tuple<int, int>(lval, hval);
+            return range;
         }
     }
 }

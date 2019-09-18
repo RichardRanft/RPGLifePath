@@ -1,0 +1,36 @@
+--------
+Tracey Spitsberg
+--------
+ - Family -
+Parents: Your parent(s) died in an accident
+Name : Stormy Spitsberg
+-
+Siblings:
+Name         : Sarah Spitsberg
+Relationship : Dislike
+-
+Name         : Katherina Spitsberg
+Relationship : Neutral
+-
+Family Status: Normal
+--------
+ - Friends and Enemies -
+Friends:
+Name         : Heriberto Rosamond
+Relationship : Is a teacher or mentor
+-
+Name         : Terrie Grain
+Relationship : Was an old family friend
+-
+Enemies:
+Name         : Ludie Pherson
+Relationship : Relative
+Origin       : Caused imprisonment or exile of other person
+Status       : They hate you
+Reaction     : Go into a murderous rage and try to kill the other
+-
+--------
+ - Romance -
+Status       : In a relationship.
+Name         : Marianne Donath
+Relationship : Your friends or relatives hate your lover

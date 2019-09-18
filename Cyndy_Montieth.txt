@@ -1,0 +1,53 @@
+--------
+Cyndy Montieth
+--------
+ - Family -
+Parents: You don't get along with either parent
+Name : Eleonora Montieth
+-
+Name : Arthur Montieth
+-
+Siblings:
+Name         : Michelina Montieth
+Relationship : Like
+-
+Name         : Maris Montieth
+Relationship : Hero worship
+-
+Name         : Dana Montieth
+Relationship : Like
+-
+Name         : Tiera Montieth
+Relationship : Like
+-
+Family Status: Normal
+--------
+ - Friends and Enemies -
+Friends:
+Name         : Rubi Lovera
+Relationship : Is like an older brother/sister to you
+-
+Name         : Marquitta Agredano
+Relationship : Is a partner or co-worker
+-
+Name         : Soraya Poxon
+Relationship : Is an old lover
+-
+Enemies:
+Name         : Xavier Traxson
+Relationship : Enemy agent
+Origin       : Accused other of cowardice or other personal flaw
+Status       : You hate them
+Reaction     : Verbally attack them
+-
+Name         : Pamelia Shaheed
+Relationship : Ex co-worker or partner
+Origin       : Foiled a plan of the other's
+Status       : The feeling's mutual
+Reaction     : Verbally attack them
+-
+--------
+ - Romance -
+Status       : In a relationship.
+Name         : Beckie Bedee
+Relationship : You fight constantly

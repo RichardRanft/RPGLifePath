@@ -42,6 +42,53 @@ namespace LifePath
             if (String.IsNullOrEmpty(tbxFirstName.Text) || String.IsNullOrEmpty(tbxLastName.Text))
                 return;
             m_lifepath = m_lpgen.Generate(tbxFirstName.Text, tbxLastName.Text);
+
+            CActor me = new CActor();
+            me.FirstName = m_lifepath.FirstName;
+            me.LastName = m_lifepath.LastName;
+
+            CNameGenerator namegen = new CNameGenerator(m_pathData);
+            Random m_rand = new Random(DateTime.Now.Millisecond);
+            for (int i = 0; i < m_lifepath.Parents.Count; ++i)
+            {
+                CActor parent = m_lifepath.Parents[i];
+                int coin = m_rand.Next(0, 1);
+                if (coin > 0)
+                    parent.Lifepath = m_lpgen.Generate(parent.FirstName, namegen.GetLastName());
+                else
+                    parent.Lifepath = m_lpgen.Generate(parent.FirstName, parent.LastName);
+            }
+            for (int i = 0; i < m_lifepath.Siblings.Count; ++i)
+            {
+                CActor sibling = m_lifepath.Siblings[i];
+                sibling.Lifepath = m_lpgen.Generate(sibling.FirstName, sibling.LastName);
+                sibling.Lifepath.Siblings.Clear();
+                sibling.Lifepath.Siblings.Add(me);
+                foreach (CActor sib in m_lifepath.Siblings)
+                {
+                    if (!sib.FirstName.Equals(sibling.FirstName))
+                        sibling.Lifepath.Siblings.Add(sib);
+                }
+            }
+            for (int i = 0; i < m_lifepath.Friends.Count; ++i)
+            {
+                CActor friend = m_lifepath.Friends[i];
+                friend.Lifepath = m_lpgen.Generate(friend.FirstName, friend.LastName);
+                friend.Lifepath.Friends.Add(me);
+            }
+            for (int i = 0; i < m_lifepath.Enemies.Count; ++i)
+            {
+                CActor enemy = m_lifepath.Enemies[i];
+                enemy.Lifepath = m_lpgen.Generate(enemy.FirstName, enemy.LastName);
+                enemy.Lifepath.Enemies.Add(me);
+            }
+            if (m_lifepath.Lover != null && !String.IsNullOrEmpty(m_lifepath.Lover.FirstName))
+            {
+                m_lifepath.Lover.Lifepath = m_lpgen.Generate(m_lifepath.Lover.FirstName, m_lifepath.Lover.LastName);
+                m_lifepath.Lover.Lifepath.Lover = me;
+                me.Relationship = m_lifepath.Lover.Relationship;
+                me.Status = m_lifepath.RomanceStatus;
+            }
             displayPathData();
         }
 

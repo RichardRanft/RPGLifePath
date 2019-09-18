@@ -1,0 +1,59 @@
+--------
+Elouise Newville
+--------
+ - Family -
+Parents: You get along well with one but not the other
+Name : Breanna Newville
+-
+Name : Roy Newville
+-
+Siblings:
+Name         : Shawnda Newville
+Relationship : Hate
+-
+Name         : Deandra Newville
+Relationship : Hero worship
+-
+Name         : Dave Newville
+Relationship : Hero worship
+-
+Name         : Malvina Newville
+Relationship : Like
+-
+Name         : Kenna Newville
+Relationship : Neutral
+-
+Name         : Rashad Newville
+Relationship : Neutral
+-
+Family Status: Normal
+--------
+ - Friends and Enemies -
+Friends:
+Name         : Cammie Reitman
+Relationship : Was an old family friend
+-
+Enemies:
+Name         : Sibyl Wibbenmeyer
+Relationship : Person under your command or a lower official
+Origin       : Accused other of cowardice or other personal flaw
+Status       : They hate you
+Reaction     : Go into a murderous rage and try to kill the other
+-
+Name         : Emilio Locknane
+Relationship : Ex-lover
+Origin       : Was a romantic rival
+Status       : The feeling's mutual
+Reaction     : Cause injury in any indirect way possible
+-
+Name         : Suzette Subich
+Relationship : Superior officer or other official
+Origin       : Foiled a plan of the other's
+Status       : They hate you
+Reaction     : Ignore them
+-
+--------
+ - Romance -
+Status       : In a relationship.
+Name         : Almeta Towler
+Relationship : Your lover's friends or relatives hate you

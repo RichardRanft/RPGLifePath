@@ -1,0 +1,36 @@
+--------
+Aundrea Imbier
+--------
+ - Family -
+Parents: You don't get along with either parent
+Name : Gary Imbier
+-
+Name : Eloise Imbier
+-
+Siblings:
+Name         : Carmella Imbier
+Relationship : Dislike
+-
+Name         : Bobby Imbier
+Relationship : Hero worship
+-
+Name         : Gertrud Imbier
+Relationship : Neutral
+-
+Family Status: Normal
+--------
+ - Friends and Enemies -
+Friends:
+Name         : Stacey Gettel
+Relationship : Is a partner or co-worker
+-
+Enemies:
+Name         : Andrea Rinaudo
+Relationship : Person under your command or a lower official
+Origin       : Caused a physical disability
+Status       : You hate them
+Reaction     : Go into a murderous rage and try to kill the other
+-
+--------
+ - Romance -
+Status       : You're waiting for the right one

@@ -1,0 +1,50 @@
+--------
+Alysa Gaisford
+--------
+ - Family -
+Parents: You get along well with both parents
+Name : Ollie Gaisford
+-
+Name : Anya Gaisford
+-
+Siblings:
+Name         : Nadine Gaisford
+Relationship : Like
+-
+Name         : Ching Gaisford
+Relationship : Neutral
+-
+Name         : Sheron Gaisford
+Relationship : Neutral
+-
+Name         : Shalonda Gaisford
+Relationship : Hero worship
+-
+Name         : Laverne Gaisford
+Relationship : Hero worship
+-
+Family Status: Normal
+--------
+ - Friends and Enemies -
+Friends:
+Name         : Joannie Hensler
+Relationship : Is a childhood friend
+-
+Enemies:
+Name         : Merrie Genter
+Relationship : Enemy agent
+Origin       : Turned down other's offer of job or romantic involvement
+Status       : You hate them
+Reaction     : Avoid the other person
+-
+Name         : Lashaunda Gauldin
+Relationship : Relative
+Origin       : Turned down other's offer of job or romantic involvement
+Status       : They hate you
+Reaction     : Ignore them
+-
+--------
+ - Romance -
+Status       : In a relationship.
+Name         : Jodi Baldasaro
+Relationship : Your lover's friends or relatives hate you

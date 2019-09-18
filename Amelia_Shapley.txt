@@ -1,0 +1,59 @@
+--------
+Amelia Shapley
+--------
+ - Family -
+Parents: You get along well with both parents
+Name : Doug Shapley
+-
+Name : Roseline Shapley
+-
+Siblings:
+Name         : Cherise Shapley
+Relationship : Neutral
+-
+Name         : Cecil Shapley
+Relationship : Like
+-
+Name         : Loreen Shapley
+Relationship : Like
+-
+Name         : Rubi Shapley
+Relationship : Hero worship
+-
+Family Status: Normal
+--------
+ - Friends and Enemies -
+Friends:
+Name         : Annalisa Tompson
+Relationship : Is a teacher or mentor
+-
+Name         : Annmarie Kats
+Relationship : Is a partner or co-worker
+-
+Name         : Eli Karter
+Relationship : Is an old lover
+-
+Enemies:
+Name         : Brigid Doren
+Relationship : Person under your command or a lower official
+Origin       : Caused the loss of a lover friend or relative
+Status       : You hate them
+Reaction     : Go into a murderous rage and try to kill the other
+-
+Name         : Kylee Sawaia
+Relationship : Superior officer or other official
+Origin       : Caused the loss of a lover friend or relative
+Status       : The feeling's mutual
+Reaction     : Go into a murderous rage and try to kill the other
+-
+Name         : Leon Fodera
+Relationship : Ex co-worker or partner
+Origin       : Deserted or betrayed the other
+Status       : The feeling's mutual
+Reaction     : Cause injury in any indirect way possible
+-
+--------
+ - Romance -
+Status       : In a relationship.
+Name         : Marion Wesselink
+Relationship : Everything is great between you

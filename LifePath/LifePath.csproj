@@ -50,7 +50,6 @@
     <Compile Include="CLifePath.cs" />
     <Compile Include="CLifePathGenerator.cs" />
     <Compile Include="CNameGenerator.cs" />
-    <Compile Include="CPlayer.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

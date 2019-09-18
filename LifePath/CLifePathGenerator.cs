@@ -47,6 +47,11 @@ namespace LifePath
                     CActor parent = new CActor();
                     parent.FirstName = namegen.GetFirstName();
                     parent.LastName = path.LastName;
+                    int coin = m_rand.Next(0, 1);
+                    if (coin == 1)
+                        parent.Lifepath = Generate(parent.FirstName, namegen.GetLastName());
+                    else
+                        parent.Lifepath = Generate(parent.FirstName, parent.LastName);
                     path.AddParent(parent);
                 }
             }
@@ -62,6 +67,11 @@ namespace LifePath
                         CActor parent = new CActor();
                         parent.FirstName = namegen.GetFirstName();
                         parent.LastName = path.LastName;
+                        coin = m_rand.Next(0, 1);
+                        if (coin == 1)
+                            parent.Lifepath = Generate(parent.FirstName, namegen.GetLastName());
+                        else
+                            parent.Lifepath = Generate(parent.FirstName, parent.LastName);
                         path.AddParent(parent);
                     }
                 }
@@ -82,7 +92,11 @@ namespace LifePath
                     CActor parent = new CActor();
                     parent.FirstName = namegen.GetFirstName();
                     parent.LastName = path.LastName;
-                    path.AddParent(parent);
+                    int coin = m_rand.Next(0, 1);
+                    if (coin == 1)
+                        parent.Lifepath = Generate(parent.FirstName, namegen.GetLastName());
+                    else
+                        parent.Lifepath = Generate(parent.FirstName, parent.LastName); path.AddParent(parent);
                 }
             }
             else
@@ -97,7 +111,11 @@ namespace LifePath
                         CActor parent = new CActor();
                         parent.FirstName = namegen.GetFirstName();
                         parent.LastName = path.LastName;
-                        path.AddParent(parent);
+                        coin = m_rand.Next(0, 1);
+                        if (coin == 1)
+                            parent.Lifepath = Generate(parent.FirstName, namegen.GetLastName());
+                        else
+                            parent.Lifepath = Generate(parent.FirstName, parent.LastName); path.AddParent(parent);
                     }
                 }
             }
@@ -119,6 +137,7 @@ namespace LifePath
                         sibling.FirstName = namegen.GetFirstName();
                         sibling.LastName = path.LastName;
                         sibling.Relationship = getResult(m_pathData.Tables["SiblingRel"]);
+                        sibling.Lifepath = Generate(sibling.FirstName, sibling.LastName);
                         path.AddSibling(sibling);
                     }
                 }
@@ -149,6 +168,7 @@ namespace LifePath
                         sibling.FirstName = namegen.GetFirstName();
                         sibling.LastName = path.LastName;
                         sibling.Relationship = getResult(m_pathData.Tables["SiblingRel"]);
+                        sibling.Lifepath = Generate(sibling.FirstName, sibling.LastName);
                         path.AddSibling(sibling);
                     }
                 }
@@ -174,6 +194,7 @@ namespace LifePath
                     sibling.FirstName = namegen.GetFirstName();
                     sibling.LastName = path.LastName;
                     sibling.Relationship = getResult(m_pathData.Tables["SiblingRel"]);
+                    sibling.Lifepath = Generate(sibling.FirstName, sibling.LastName);
                     path.AddSibling(sibling);
                 }
             }
@@ -202,6 +223,7 @@ namespace LifePath
                 friend.FirstName = namegen.GetFirstName();
                 friend.LastName = namegen.GetLastName();
                 friend.Relationship = getResult(m_pathData.Tables["Friends"]);
+                friend.Lifepath = Generate(friend.FirstName, friend.LastName);
                 path.AddFriend(friend);
             }
         }
@@ -225,6 +247,7 @@ namespace LifePath
                 enemy.Origin = getResult(m_pathData.Tables["EnemyOrigin"]);
                 enemy.Status = getResult(m_pathData.Tables["EnemyStatus"]);
                 enemy.Reaction = getResult(m_pathData.Tables["EnemyReaction"]);
+                enemy.Lifepath = Generate(enemy.FirstName, enemy.LastName);
                 path.AddEnemy(enemy);
             }
         }
@@ -262,6 +285,7 @@ namespace LifePath
                     path.Lover.FirstName = namegen.GetFirstName();
                     path.Lover.LastName = namegen.GetLastName();
                     path.Lover.Relationship = getResult(m_pathData.Tables["RelationshipStatus"]);
+                    path.Lover.Lifepath = Generate(path.Lover.FirstName, path.Lover.LastName);
                     path.RomanceStatus = "In a relationship.";
                     break;
                 case "@SingleStatus":
@@ -287,6 +311,7 @@ namespace LifePath
                     path.Lover.FirstName = namegen.GetFirstName();
                     path.Lover.LastName = namegen.GetLastName();
                     path.Lover.Relationship = getResult(m_pathData.Tables["ExStatus"]);
+                    path.Lover.Lifepath = Generate(path.Lover.FirstName, path.Lover.LastName);
                     break;
             }
         }

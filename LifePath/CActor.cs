@@ -10,6 +10,7 @@ namespace LifePath
         public String Origin = "";
         public String Location = "";
         public String Age = "";
+        public CLifePath Lifepath = null;
         private String m_firstName;
         private String m_lastName;
 

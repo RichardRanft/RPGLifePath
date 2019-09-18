@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 
 namespace LifePath
 {
@@ -80,6 +79,65 @@ namespace LifePath
             m_firstName = parts[0];
             if (parts.Length > 1)
                 m_lastName = parts[1];
+        }
+
+        public bool Save()
+        {
+            String outfile = String.Format("{0}_{1}.txt", this.FirstName, this.LastName);
+            using (StreamWriter sw = new StreamWriter(outfile))
+            {
+                sw.WriteLine("--------");
+                sw.WriteLine(this.Name);
+                sw.WriteLine("--------");
+                sw.WriteLine(" - Family -");
+                sw.WriteLine("Parents: {0}", this.ParentStatus);
+                foreach (CActor actor in this.Parents)
+                {
+                    sw.WriteLine("Name : {0}", actor.Name);
+                    sw.WriteLine("-");
+                }
+                if (this.Siblings.Count > 0)
+                {
+                    sw.WriteLine("Siblings:");
+                    foreach (CActor actor in this.Siblings)
+                    {
+                        sw.WriteLine("Name         : {0}", actor.Name);
+                        sw.WriteLine("Relationship : {0}", actor.Relationship);
+                        sw.WriteLine("-");
+                    }
+                }
+                sw.WriteLine("Family Status: {0}", this.FamilyStatus);
+                if (this.FamilyStatus != "Normal")
+                    sw.WriteLine("Life Goal: {0}", this.LifeGoal);
+                sw.WriteLine("--------");
+                sw.WriteLine(" - Friends and Enemies -");
+                sw.WriteLine("Friends:");
+                foreach (CActor actor in this.Friends)
+                {
+                    sw.WriteLine("Name         : {0}", actor.Name);
+                    sw.WriteLine("Relationship : {0}", actor.Relationship);
+                    sw.WriteLine("-");
+                }
+                sw.WriteLine("Enemies:");
+                foreach (CActor actor in this.Enemies)
+                {
+                    sw.WriteLine("Name         : {0}", actor.Name);
+                    sw.WriteLine("Relationship : {0}", actor.Relationship);
+                    sw.WriteLine("Origin       : {0}", actor.Origin);
+                    sw.WriteLine("Status       : {0}", actor.Status);
+                    sw.WriteLine("Reaction     : {0}", actor.Reaction);
+                    sw.WriteLine("-");
+                }
+                sw.WriteLine("--------");
+                sw.WriteLine(" - Romance -");
+                sw.WriteLine("Status       : {0}", this.RomanceStatus);
+                if (!String.IsNullOrEmpty(this.Lover.FirstName))
+                {
+                    sw.WriteLine("Name         : {0}", this.Lover.Name);
+                    sw.WriteLine("Relationship : {0}", this.Lover.Relationship);
+                }
+            }
+            return true;
         }
     }
 }

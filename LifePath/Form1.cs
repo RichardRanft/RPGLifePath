@@ -39,25 +39,73 @@ namespace LifePath
 
         private void btnGenerate_Click(object sender, EventArgs e)
         {
-            if (String.IsNullOrEmpty(tbxFirstName.Text) || String.IsNullOrEmpty(tbxLastName.Text))
-                return;
+            if (String.IsNullOrEmpty(tbxFirstName.Text))
+                tbxFirstName.Text = m_namegen.GetFirstName();
+            if (String.IsNullOrEmpty(tbxLastName.Text))
+                tbxLastName.Text = m_namegen.GetLastName();
+
             m_lifepath = m_lpgen.Generate(tbxFirstName.Text, tbxLastName.Text);
 
             CActor me = new CActor();
             me.FirstName = m_lifepath.FirstName;
             me.LastName = m_lifepath.LastName;
 
+            getParentPath();
+            getSiblingPaths(ref me);
+            getFriendPaths(ref me);
+            getEnemyPaths(ref me);
+            getLoverPath(ref me);
+            displayPathData();
+        }
+
+        private void getLoverPath(ref CActor me)
+        {
+            if (m_lifepath.Lover != null && !String.IsNullOrEmpty(m_lifepath.Lover.FirstName))
+            {
+                m_lifepath.Lover.Lifepath = m_lpgen.Generate(m_lifepath.Lover.FirstName, m_lifepath.Lover.LastName);
+                m_lifepath.Lover.Lifepath.Lover = me;
+                me.Relationship = m_lifepath.Lover.Relationship;
+                me.Status = m_lifepath.RomanceStatus;
+            }
+        }
+
+        private void getEnemyPaths(ref CActor me)
+        {
+            for (int i = 0; i < m_lifepath.Enemies.Count; ++i)
+            {
+                CActor enemy = m_lifepath.Enemies[i];
+                enemy.Lifepath = m_lpgen.Generate(enemy.FirstName, enemy.LastName);
+                enemy.Lifepath.Enemies.Add(me);
+            }
+        }
+
+        private void getFriendPaths(ref CActor me)
+        {
+            for (int i = 0; i < m_lifepath.Friends.Count; ++i)
+            {
+                CActor friend = m_lifepath.Friends[i];
+                friend.Lifepath = m_lpgen.Generate(friend.FirstName, friend.LastName);
+                friend.Lifepath.Friends.Add(me);
+            }
+        }
+
+        private void getParentPath()
+        {
             CNameGenerator namegen = new CNameGenerator(m_pathData);
-            Random m_rand = new Random(DateTime.Now.Millisecond);
+            Random rand = new Random(DateTime.Now.Millisecond);
             for (int i = 0; i < m_lifepath.Parents.Count; ++i)
             {
                 CActor parent = m_lifepath.Parents[i];
-                int coin = m_rand.Next(0, 1);
+                int coin = rand.Next(0, 1);
                 if (coin > 0)
                     parent.Lifepath = m_lpgen.Generate(parent.FirstName, namegen.GetLastName());
                 else
                     parent.Lifepath = m_lpgen.Generate(parent.FirstName, parent.LastName);
             }
+        }
+
+        private void getSiblingPaths(ref CActor me)
+        {
             for (int i = 0; i < m_lifepath.Siblings.Count; ++i)
             {
                 CActor sibling = m_lifepath.Siblings[i];
@@ -70,26 +118,6 @@ namespace LifePath
                         sibling.Lifepath.Siblings.Add(sib);
                 }
             }
-            for (int i = 0; i < m_lifepath.Friends.Count; ++i)
-            {
-                CActor friend = m_lifepath.Friends[i];
-                friend.Lifepath = m_lpgen.Generate(friend.FirstName, friend.LastName);
-                friend.Lifepath.Friends.Add(me);
-            }
-            for (int i = 0; i < m_lifepath.Enemies.Count; ++i)
-            {
-                CActor enemy = m_lifepath.Enemies[i];
-                enemy.Lifepath = m_lpgen.Generate(enemy.FirstName, enemy.LastName);
-                enemy.Lifepath.Enemies.Add(me);
-            }
-            if (m_lifepath.Lover != null && !String.IsNullOrEmpty(m_lifepath.Lover.FirstName))
-            {
-                m_lifepath.Lover.Lifepath = m_lpgen.Generate(m_lifepath.Lover.FirstName, m_lifepath.Lover.LastName);
-                m_lifepath.Lover.Lifepath.Lover = me;
-                me.Relationship = m_lifepath.Lover.Relationship;
-                me.Status = m_lifepath.RomanceStatus;
-            }
-            displayPathData();
         }
 
         private void displayPathData()
@@ -258,17 +286,44 @@ namespace LifePath
                 }
             }
             if (clicked == lblParentReroll)
+            {
                 m_lpgen.RollParents(ref m_lifepath);
+                getParentPath();
+            }
             if (clicked == lblFamilyReroll)
                 m_lpgen.RollFamilySituation(ref m_lifepath);
             if (clicked == lblSiblingReroll)
+            {
                 m_lpgen.RollSiblings(ref m_lifepath);
+                CActor me = new CActor();
+                me.FirstName = m_lifepath.FirstName;
+                me.LastName = m_lifepath.LastName;
+                getSiblingPaths(ref me);
+            }
             if (clicked == lblFriendsReroll)
+            {
                 m_lpgen.RollFriends(ref m_lifepath);
+                CActor me = new CActor();
+                me.FirstName = m_lifepath.FirstName;
+                me.LastName = m_lifepath.LastName;
+                getFriendPaths(ref me);
+            }
             if (clicked == lblEnemiesReroll)
+            {
                 m_lpgen.RollEnemies(ref m_lifepath);
+                CActor me = new CActor();
+                me.FirstName = m_lifepath.FirstName;
+                me.LastName = m_lifepath.LastName;
+                getEnemyPaths(ref me);
+            }
             if (clicked == lblRelationshipReroll)
+            {
                 m_lpgen.RollRomance(ref m_lifepath);
+                CActor me = new CActor();
+                me.FirstName = m_lifepath.FirstName;
+                me.LastName = m_lifepath.LastName;
+                getLoverPath(ref me);
+            }
             displayPathData();
         }
 

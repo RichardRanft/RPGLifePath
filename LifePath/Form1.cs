@@ -12,6 +12,7 @@ namespace LifePath
         private CNameGenerator m_namegen;
         private DataSet m_pathData;
         private CLifePath m_lifepath;
+        private CActor m_player;
 
         public Form1()
         {
@@ -46,15 +47,16 @@ namespace LifePath
 
             m_lifepath = m_lpgen.Generate(tbxFirstName.Text, tbxLastName.Text);
 
-            CActor me = new CActor();
-            me.FirstName = m_lifepath.FirstName;
-            me.LastName = m_lifepath.LastName;
+            m_player = new CActor();
+            m_player.FirstName = m_lifepath.FirstName;
+            m_player.LastName = m_lifepath.LastName;
+            m_player.Lifepath = m_lifepath;
 
             getParentPath();
-            getSiblingPaths(ref me);
-            getFriendPaths(ref me);
-            getEnemyPaths(ref me);
-            getLoverPath(ref me);
+            getSiblingPaths(ref m_player);
+            getFriendPaths(ref m_player);
+            getEnemyPaths(ref m_player);
+            getLoverPath(ref m_player);
             displayPathData();
         }
 
@@ -64,8 +66,7 @@ namespace LifePath
             {
                 m_lifepath.Lover.Lifepath = m_lpgen.Generate(m_lifepath.Lover.FirstName, m_lifepath.Lover.LastName);
                 m_lifepath.Lover.Lifepath.Lover = me;
-                me.Relationship = m_lifepath.Lover.Relationship;
-                me.Status = m_lifepath.RomanceStatus;
+                m_lifepath.Lover.Lifepath.RomanceStatus = m_lifepath.RomanceStatus;
             }
         }
 
@@ -124,88 +125,45 @@ namespace LifePath
         {
             lblParent1.Text = "";
             lblParent2.Text = "";
-            lblParentStatus.Text = m_lifepath.ParentStatus;
+            lblParentStatus.Text = m_player.Lifepath.ParentStatus;
             if (m_lifepath.Parents.Count > 0)
-                lblParent1.Text = m_lifepath.Parents[0].ToString();
+                lblParent1.Text = m_player.Lifepath.Parents[0].ToString();
             if (m_lifepath.Parents.Count > 1)
-                lblParent2.Text = m_lifepath.Parents[1].ToString();
-            lblFamilyStatus.Text = m_lifepath.FamilyStatus;
+                lblParent2.Text = m_player.Lifepath.Parents[1].ToString();
+            lblFamilyStatus.Text = m_player.Lifepath.FamilyStatus;
             lbxSiblings.Items.Clear();
-            foreach (CActor actor in m_lifepath.Siblings)
+            foreach (CActor actor in m_player.Lifepath.Siblings)
                 lbxSiblings.Items.Add(actor);
             lbxFriends.Items.Clear();
-            foreach (CActor actor in m_lifepath.Friends)
+            foreach (CActor actor in m_player.Lifepath.Friends)
                 lbxFriends.Items.Add(actor);
             lbxEnemies.Items.Clear();
-            foreach (CActor actor in m_lifepath.Enemies)
+            foreach (CActor actor in m_player.Lifepath.Enemies)
                 lbxEnemies.Items.Add(actor);
             lblLoverName.Text = "";
             lblRelInfo.Text = "";
-            lblRelationshipStatus.Text = m_lifepath.RomanceStatus;
-            if(!String.IsNullOrEmpty(m_lifepath.Lover.FirstName))
+            lblRelationshipStatus.Text = m_player.Lifepath.RomanceStatus;
+            if(!String.IsNullOrEmpty(m_player.Lifepath.Lover.FirstName))
             {
-                lblLoverName.Text = m_lifepath.Lover.Name;
-                lblRelInfo.Text = m_lifepath.Lover.Relationship;
+                lblLoverName.Text = m_player.Lifepath.Lover.Name;
+                lblRelInfo.Text = m_player.Lifepath.Lover.Relationship;
             }
             tbxDisplaySelected.Text = "";
         }
 
         private void dumpPathData()
         {
-            String outfile = String.Format("{0}_{1}.txt", m_lifepath.FirstName, m_lifepath.LastName);
-            using (StreamWriter sw = new StreamWriter(outfile))
-            {
-                sw.WriteLine("--------");
-                sw.WriteLine(m_lifepath.Name);
-                sw.WriteLine("--------");
-                sw.WriteLine(" - Family -");
-                sw.WriteLine("Parents: {0}", m_lifepath.ParentStatus);
-                foreach(CActor actor in m_lifepath.Parents)
-                {
-                    sw.WriteLine("Name : {0}", actor.Name);
-                    sw.WriteLine("-");
-                }
-                if (m_lifepath.Siblings.Count > 0)
-                {
-                    sw.WriteLine("Siblings:");
-                    foreach (CActor actor in m_lifepath.Siblings)
-                    {
-                        sw.WriteLine("Name         : {0}", actor.Name);
-                        sw.WriteLine("Relationship : {0}", actor.Relationship);
-                        sw.WriteLine("-");
-                    }
-                }
-                sw.WriteLine("Family Status: {0}", m_lifepath.FamilyStatus);
-                if(m_lifepath.FamilyStatus != "Normal")
-                    sw.WriteLine("Life Goal: {0}", m_lifepath.LifeGoal);
-                sw.WriteLine("--------");
-                sw.WriteLine(" - Friends and Enemies -");
-                sw.WriteLine("Friends:");
-                foreach(CActor actor in m_lifepath.Friends)
-                {
-                    sw.WriteLine("Name         : {0}", actor.Name);
-                    sw.WriteLine("Relationship : {0}", actor.Relationship);
-                    sw.WriteLine("-");
-                }
-                sw.WriteLine("Enemies:");
-                foreach (CActor actor in m_lifepath.Enemies)
-                {
-                    sw.WriteLine("Name         : {0}", actor.Name);
-                    sw.WriteLine("Relationship : {0}", actor.Relationship);
-                    sw.WriteLine("Origin       : {0}", actor.Origin);
-                    sw.WriteLine("Status       : {0}", actor.Status);
-                    sw.WriteLine("Reaction     : {0}", actor.Reaction);
-                    sw.WriteLine("-");
-                }
-                sw.WriteLine("--------");
-                sw.WriteLine(" - Romance -");
-                sw.WriteLine("Status       : {0}", m_lifepath.RomanceStatus);
-                if(!String.IsNullOrEmpty(m_lifepath.Lover.FirstName))
-                {
-                    sw.WriteLine("Name         : {0}", m_lifepath.Lover.Name);
-                    sw.WriteLine("Relationship : {0}", m_lifepath.Lover.Relationship);
-                }
-            }
+            m_player.Save();
+            foreach(CActor actor in m_lifepath.Parents)
+                actor.Save(m_player);
+            foreach (CActor actor in m_lifepath.Siblings)
+                actor.Save(m_player);
+            foreach(CActor actor in m_lifepath.Friends)
+                actor.Save(m_player);
+            foreach (CActor actor in m_lifepath.Enemies)
+                actor.Save(m_player);
+            if (!String.IsNullOrEmpty(m_lifepath.Lover.FirstName))
+                m_player.Lifepath.Lover.Save(m_player);
         }
 
         private void btnFirstName_Click(object sender, EventArgs e)
@@ -234,6 +192,8 @@ namespace LifePath
             {
                 m_lifepath.FirstName = tbxFirstName.Text;
                 m_lifepath.LastName = tbxLastName.Text;
+                m_player.FirstName = m_lifepath.FirstName;
+                m_player.LastName = m_lifepath.LastName;
                 if(m_lifepath.Parents.Count > 0)
                 {
                     foreach (CActor actor in m_lifepath.Parents)
@@ -295,34 +255,22 @@ namespace LifePath
             if (clicked == lblSiblingReroll)
             {
                 m_lpgen.RollSiblings(ref m_lifepath);
-                CActor me = new CActor();
-                me.FirstName = m_lifepath.FirstName;
-                me.LastName = m_lifepath.LastName;
-                getSiblingPaths(ref me);
+                getSiblingPaths(ref m_player);
             }
             if (clicked == lblFriendsReroll)
             {
                 m_lpgen.RollFriends(ref m_lifepath);
-                CActor me = new CActor();
-                me.FirstName = m_lifepath.FirstName;
-                me.LastName = m_lifepath.LastName;
-                getFriendPaths(ref me);
+                getFriendPaths(ref m_player);
             }
             if (clicked == lblEnemiesReroll)
             {
                 m_lpgen.RollEnemies(ref m_lifepath);
-                CActor me = new CActor();
-                me.FirstName = m_lifepath.FirstName;
-                me.LastName = m_lifepath.LastName;
-                getEnemyPaths(ref me);
+                getEnemyPaths(ref m_player);
             }
             if (clicked == lblRelationshipReroll)
             {
                 m_lpgen.RollRomance(ref m_lifepath);
-                CActor me = new CActor();
-                me.FirstName = m_lifepath.FirstName;
-                me.LastName = m_lifepath.LastName;
-                getLoverPath(ref me);
+                getLoverPath(ref m_player);
             }
             displayPathData();
         }

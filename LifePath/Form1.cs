@@ -77,6 +77,10 @@ namespace LifePath
                 CActor enemy = m_lifepath.Enemies[i];
                 enemy.Lifepath = m_lpgen.Generate(enemy.FirstName, enemy.LastName);
                 enemy.Lifepath.Enemies.Add(me);
+                enemy.Lifepath.Enemies[enemy.Lifepath.Enemies.Count - 1].Relationship = enemy.Relationship;
+                enemy.Lifepath.Enemies[enemy.Lifepath.Enemies.Count - 1].Origin = enemy.Origin;
+                enemy.Lifepath.Enemies[enemy.Lifepath.Enemies.Count - 1].Status = enemy.Status;
+                enemy.Lifepath.Enemies[enemy.Lifepath.Enemies.Count - 1].Reaction = enemy.Reaction;
             }
         }
 
@@ -87,6 +91,10 @@ namespace LifePath
                 CActor friend = m_lifepath.Friends[i];
                 friend.Lifepath = m_lpgen.Generate(friend.FirstName, friend.LastName);
                 friend.Lifepath.Friends.Add(me);
+                friend.Lifepath.Enemies[friend.Lifepath.Enemies.Count - 1].Relationship = friend.Relationship;
+                friend.Lifepath.Enemies[friend.Lifepath.Enemies.Count - 1].Origin = friend.Origin;
+                friend.Lifepath.Enemies[friend.Lifepath.Enemies.Count - 1].Status = friend.Status;
+                friend.Lifepath.Enemies[friend.Lifepath.Enemies.Count - 1].Reaction = friend.Reaction;
             }
         }
 

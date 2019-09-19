@@ -73,9 +73,16 @@ namespace LifePath
         public void Save(CActor main = null)
         {
             String player = "";
-            if (main != null)
+            if (main == null)
             {
-                String folder = String.Format("{0}_{1}", main.FirstName, main.LastName);
+                String folder = String.Format("{0}_{1}", FirstName, LastName);
+                if (!Directory.Exists(folder))
+                    Directory.CreateDirectory(folder);
+                player = folder + "\\";
+            }
+            else
+            {
+                String folder = String.Format("{0}_{1}\\actors", main.FirstName, main.LastName);
                 if (!Directory.Exists(folder))
                     Directory.CreateDirectory(folder);
                 player = folder + "\\";

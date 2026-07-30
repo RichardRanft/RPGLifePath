@@ -306,6 +306,53 @@ apply the result to the context" — a small, mechanical action instead of the c
   automation tool available in this environment for a full generate/reroll/save
   click-through).
 
+### Post-Phase-3 bug fix: single-value rows never reachable in 7 of 18 tables
+
+User-reported: generated Friends always showed relationship "Grew up with you" and
+Enemies always "Enemy agent". Root-caused with the `root-cause-analyst` subagent
+(project diagnosis policy) before any fix, confirmed independently by reading the full
+row data for all 18 tables and cross-checking `git log`/`git blame` on
+`pathdata.xml:282880-283420` — the data is unmodified since commit `7253550b` (2019),
+so this predates the .NET port entirely; Phase 3 faithfully carried the bug forward
+rather than introducing it.
+
+**Root cause:** `WeightedTable`'s range computation (and the pre-port `getRange` it
+replicated) only extended `RangeHigh` from rows that had an explicit `<rhigh>`. A row
+with `<rhigh />` empty (a "single-value" row, meant to match when `roll == Low`) never
+contributed to `RangeHigh` at all — not even its own `Low`. For a table made entirely
+of single-value rows, `RangeHigh` stays at its initial value of 1 forever, so every
+roll is forced to 1 and the table always returns its first row.
+
+**Affected tables** (verified by reading every row in `pathdata.xml:282880-283420`):
+`Other` (10 rows, all single-value → always row 1), `Friends` (10 rows, all
+single-value → always "Grew up with you"), `Enemies` (row 1 ranged 1-3, rows 2-8
+single-value → range collapsed to 1-3, always "Enemy agent"), `EnemyOrigin` (10 rows,
+all single-value → always row 1), `ReboundStatus` (10 rows, all single-value → always
+row 1), `ExStatus` (10 rows, all single-value → always row 1), and `FamilyMisfortune`
+(rows 1-8 ranged, rows 9-10 single-value → reachable range capped at 8, rows 9/10 dead
+— this is the same quirk noted and *deliberately preserved* in the Phase 3 record
+above; it turned out to be a bug, not an intentional design choice, so that earlier
+call was wrong and is superseded by this fix). The other 11 tables were already
+correctly formed (either fully ranged, or a mix where the last row's explicit `rhigh`
+happened to reach 10) and are unaffected.
+
+**Fix:** `LifePath.Core/Tables/WeightedTable.cs` constructor — a row's contribution to
+`RangeHigh` is now `row.High ?? row.Low` instead of being skipped when `High` is null.
+This is a code-only fix (no `pathdata.xml`/`pathdata.json` edits — the bug was in how
+the range was computed, not in the data itself), so it applies uniformly to both the
+XML and JSON loading paths.
+
+**Validation** (throwaway spike, not committed): loaded the real `pathdata.xml`,
+computed both the old and new range formula for all 18 tables — 11 unchanged, 7
+changed (the list above, exactly). For the 11 unchanged-range tables, ran 100,000
+seeded rolls old-formula vs. new-formula side by side: **zero differences**, confirming
+no regression. For the 7 changed tables, ran 200,000 rolls under each formula and
+counted distinct results reached: **old formula reached only 1 distinct result** for
+`Other`/`Friends`/`Enemies`/`EnemyOrigin`/`ReboundStatus`/`ExStatus` and 4 of 6 for
+`FamilyMisfortune`; **new formula reached all rows' distinct results in every one of
+the 7 tables**. Rebuilt (0 warnings, 0 errors) and manually confirmed `LifePath.exe`
+still launches and stays running.
+
 ## Phase 4 — evaluate FluentBehaviourTree for generation flexibility
 
 Goal: make the fixed `getX → getY → getZ` call chain in `CLifePathGenerator` into a

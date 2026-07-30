@@ -35,8 +35,9 @@ namespace LifePath.Core.Tables
             {
                 if (row.Low < lval)
                     lval = row.Low;
-                if (row.High.HasValue && row.High.Value > hval)
-                    hval = row.High.Value;
+                int highCandidate = row.High ?? row.Low;
+                if (highCandidate > hval)
+                    hval = highCandidate;
             }
             RangeLow = lval;
             RangeHigh = hval;

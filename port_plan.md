@@ -164,7 +164,7 @@ the user).
 6. Rebuild, rerun the same manual pass as Phase 1 step 5 to confirm no behavior
    changed from the split.
 
-## Phase 3 — weighted-table abstraction (XML + JSON)
+## Phase 3 — weighted-table abstraction (XML + JSON) (complete)
 
 Goal: pull the roll-table lookup that's currently inlined in `CLifePathGenerator`
 (`getResult(DataTable)` / `getRange(DataTable)`, `CLifePathGenerator.cs:278-350`) out
@@ -256,6 +256,55 @@ This phase is independent of Phase 4's tree work but feeds it: once life stages 
 `ActionNode`s, each one's body is exactly "roll one or more `WeightedTable`s and
 apply the result to the context" — a small, mechanical action instead of the current
 30-40 line per-stage methods.
+
+**Done, with empirical validation (throwaway spike, not committed — see below):**
+
+- `LifePath.Core.Tables.WeightedTable` holds an ordered `IReadOnlyList<WeightedTableRow>`
+  (`Low`, nullable `High`, `Result`) plus `RangeLow`/`RangeHigh` computed once in the
+  constructor and a `Roll(Random)` method. The range computation deliberately
+  reproduces the original `getRange` quirk rather than "fixing" it: `RangeLow` is the
+  min of *all* rows' `Low` (since `rlow` is always present), but `RangeHigh` is the max
+  of only the rows that *have* an explicit `rhigh` — rows with `rhigh` empty (single-value
+  rows) don't extend the upper bound. Confirmed via `FamilyMisfortune` in the real data:
+  rows for 9 and 10 have empty `rhigh`, rows 1-8 have explicit `rhigh` maxing at 8, so
+  `RangeHigh` is 8 and rolls of 9/10 are structurally unreachable — a pre-existing dead
+  branch in the original code, now preserved exactly rather than silently fixed.
+- `WeightedTableXmlLoader` groups `pathdata.xml`'s root-level elements by tag name via
+  `XDocument`/`XElement`, treating a group as a weighted table only if its elements have
+  an `<rlow>` child (this is what naturally excludes `First_Names`/`Last_Names`, which
+  have a `<name>` child instead — no hardcoded table-name list needed).
+- `WeightedTableJsonLoader` deserializes the single-combined-document shape via
+  `Newtonsoft.Json` (added as a `LifePath.Core` package reference).
+- `LifePath\Tables\pathdata.json` generated from the live `pathdata.xml` content (18
+  weighted tables, matching the design shape) and committed as source — not yet wired
+  into the running app as a runtime option (decision: stay on the XML path for now,
+  matching the "no behavior change" scope of this phase); it exists as a real,
+  loader-verified artifact rather than just a design sketch.
+- `CLifePathGenerator` now takes `(Dictionary<string, WeightedTable> tables, DataSet
+  nameData = null)` instead of a bare `DataSet`; every `getResult(m_pathData.Tables["X"])`
+  call site became `m_tables["X"].Roll(m_rand)`. `nameData` is still a `DataSet` — passed
+  straight through to build the internal `CNameGenerator`, unchanged, per Decision 2.
+  `Form1.Form1_Load` now also calls `WeightedTableXmlLoader.Load("Tables\\pathdata.xml")`
+  and passes the result alongside the existing `DataSet` load.
+- **Validation performed** (throwaway console spike under a scratch dir, `LifePath.Core`
+  referenced via `ProjectReference`, deleted after the run — not part of the repo):
+  1. Loaded all 18 known tables from the real `pathdata.xml` via `WeightedTableXmlLoader`;
+     confirmed `First_Names`/`Last_Names` are correctly excluded (no `<rlow>` child).
+  2. Serialized those 18 tables to the JSON shape (this *is* how `pathdata.json` was
+     produced) and reloaded via `WeightedTableJsonLoader`; diffed every row's
+     `(Low, High, Result)` and both loaders' computed `(RangeLow, RangeHigh)` per table —
+     **all 18 tables identical**.
+  3. Re-implemented the original `DataSet`-based `getResult`/`getRange` verbatim (copied
+     from the pre-refactor source) against the same `pathdata.xml` loaded into a
+     `DataSet`, then for each of the 18 tables ran **100,000 rolls** with two `Random`
+     instances seeded identically (old algorithm vs. `WeightedTable.Roll`), calling each
+     exactly once per iteration so the underlying RNG sequences track in lockstep —
+     **zero mismatches across all 18 tables × 100,000 iterations**.
+- Rebuilt (`dotnet build LifePath.slnx` — 0 warnings, 0 errors) and manually confirmed
+  `LifePath.exe` still launches and stays running with the new `WeightedTableXmlLoader`
+  call in `Form1_Load` (process-liveness check, same caveat as Phase 2: no Windows GUI
+  automation tool available in this environment for a full generate/reroll/save
+  click-through).
 
 ## Phase 4 — evaluate FluentBehaviourTree for generation flexibility
 

@@ -4,6 +4,7 @@ using System.Data;
 using System.Windows.Forms;
 using System.IO;
 using LifePath.Core;
+using LifePath.Core.Tables;
 
 namespace LifePath
 {
@@ -28,7 +29,8 @@ namespace LifePath
                 {
                     m_pathData = new DataSet();
                     m_pathData.ReadXml("Tables\\pathdata.xml");
-                    m_lpgen = new CLifePathGenerator(m_pathData);
+                    Dictionary<string, WeightedTable> tables = WeightedTableXmlLoader.Load("Tables\\pathdata.xml");
+                    m_lpgen = new CLifePathGenerator(tables, m_pathData);
                     m_namegen = new CNameGenerator(m_pathData);
                 }
                 catch (Exception ex)

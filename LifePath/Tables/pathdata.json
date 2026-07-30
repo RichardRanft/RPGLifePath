@@ -1,0 +1,146 @@
+{
+  "Parents": [
+    { "Low": 1, "High": 5, "Result": "@BothLiving" },
+    { "Low": 6, "High": 10, "Result": "@Other" }
+  ],
+  "BothLiving": [
+    { "Low": 1, "High": 4, "Result": "You get along well with both parents" },
+    { "Low": 5, "High": 8, "Result": "You get along well with one but not the other" },
+    { "Low": 9, "High": 10, "Result": "You don't get along with either parent" }
+  ],
+  "Other": [
+    { "Low": 1, "Result": "Your parent(s) died in a war" },
+    { "Low": 2, "Result": "Your parent(s) died in an accident" },
+    { "Low": 3, "Result": "Your parent(s) were murdered" },
+    { "Low": 4, "Result": "Your parent(s) have amnesia and don't remember you" },
+    { "Low": 5, "Result": "You never knew your parents" },
+    { "Low": 6, "Result": "Your parent(s) were lost on a secret mission" },
+    { "Low": 7, "Result": "Your parent(s) are in hiding to protect you" },
+    { "Low": 8, "Result": "Your parent(s) defected to \"the other side\"" },
+    { "Low": 9, "Result": "You were left with relatives for safekeeping" },
+    { "Low": 10, "Result": "You grew up on the streets" }
+  ],
+  "FamilyStanding": [
+    { "Low": 1, "High": 6, "Result": "@Siblings" },
+    { "Low": 7, "High": 10, "Result": "@FamilyMisfortune" }
+  ],
+  "Siblings": [
+    { "Low": 1, "High": 7, "Result": "#" },
+    { "Low": 8, "High": 10, "Result": "0" }
+  ],
+  "SiblingRel": [
+    { "Low": 1, "High": 2, "Result": "Dislike" },
+    { "Low": 3, "High": 4, "Result": "Like" },
+    { "Low": 5, "High": 6, "Result": "Neutral" },
+    { "Low": 7, "High": 8, "Result": "Hero worship" },
+    { "Low": 9, "High": 10, "Result": "Hate" }
+  ],
+  "FamilyMisfortune": [
+    { "Low": 1, "High": 2, "Result": "Family lost all titles and lands through betrayal or bad management" },
+    { "Low": 3, "High": 4, "Result": "Family was exiled or sent abroad and you have returned under an alias" },
+    { "Low": 5, "High": 6, "Result": "Family was imprisoned and you alone escaped" },
+    { "Low": 7, "High": 8, "Result": "Family vanished.  You are the only remaining member" },
+    { "Low": 9, "Result": "Family was murdered and you alone escaped" },
+    { "Low": 10, "Result": "Family lost everything when family fortunes collapsed" }
+  ],
+  "LifeGoal": [
+    { "Low": 1, "High": 2, "Result": "Clear your name" },
+    { "Low": 3, "High": 4, "Result": "Live it down and forget it" },
+    { "Low": 5, "High": 6, "Result": "Hunt down those responsible and claim retribution" },
+    { "Low": 7, "High": 8, "Result": "Get what's rightfully yours" },
+    { "Low": 9, "High": 10, "Result": "Save your remaining family if possible" }
+  ],
+  "Friends": [
+    { "Low": 1, "Result": "Grew up with you" },
+    { "Low": 2, "Result": "Is a childhood friend" },
+    { "Low": 3, "Result": "Was an old family friend" },
+    { "Low": 4, "Result": "Is like an older brother/sister to you" },
+    { "Low": 5, "Result": "Is like a kid brother/sister to you" },
+    { "Low": 6, "Result": "Is a teacher or mentor" },
+    { "Low": 7, "Result": "Is like a foster parent to you" },
+    { "Low": 8, "Result": "Is a partner or co-worker" },
+    { "Low": 9, "Result": "Is an old lover" },
+    { "Low": 10, "Result": "Is an old enemy" }
+  ],
+  "Enemies": [
+    { "Low": 1, "High": 3, "Result": "Enemy agent" },
+    { "Low": 4, "Result": "Ex-friend" },
+    { "Low": 5, "Result": "Ex-lover" },
+    { "Low": 6, "Result": "Relative" },
+    { "Low": 7, "Result": "Childhood enemy/rival" },
+    { "Low": 8, "Result": "Superior officer or other official" },
+    { "Low": 9, "Result": "Person under your command or a lower official" },
+    { "Low": 10, "Result": "Ex co-worker or partner" }
+  ],
+  "EnemyOrigin": [
+    { "Low": 1, "Result": "Caused the other to lose face or status" },
+    { "Low": 2, "Result": "Caused the loss of a lover friend or relative" },
+    { "Low": 3, "Result": "Caused major humiliation" },
+    { "Low": 4, "Result": "Accused other of cowardice or other personal flaw" },
+    { "Low": 5, "Result": "Caused a physical disability" },
+    { "Low": 6, "Result": "Deserted or betrayed the other" },
+    { "Low": 7, "Result": "Turned down other's offer of job or romantic involvement" },
+    { "Low": 8, "Result": "Caused imprisonment or exile of other person" },
+    { "Low": 9, "Result": "Was a romantic rival" },
+    { "Low": 10, "Result": "Foiled a plan of the other's" }
+  ],
+  "EnemyStatus": [
+    { "Low": 1, "High": 4, "Result": "They hate you" },
+    { "Low": 5, "High": 7, "Result": "You hate them" },
+    { "Low": 8, "High": 10, "Result": "The feeling's mutual" }
+  ],
+  "EnemyReaction": [
+    { "Low": 1, "High": 2, "Result": "Go into a murderous rage and try to kill the other" },
+    { "Low": 3, "High": 4, "Result": "Avoid the other person" },
+    { "Low": 5, "High": 6, "Result": "Cause injury in any indirect way possible" },
+    { "Low": 7, "High": 8, "Result": "Ignore them" },
+    { "Low": 9, "High": 10, "Result": "Verbally attack them" }
+  ],
+  "Romance": [
+    { "Low": 1, "High": 3, "Result": "@RelationshipStatus" },
+    { "Low": 4, "High": 7, "Result": "@SingleStatus" },
+    { "Low": 8, "High": 10, "Result": "@ReboundStatus" }
+  ],
+  "RelationshipStatus": [
+    { "Low": 1, "Result": "Your lover's friends or relatives hate you" },
+    { "Low": 2, "Result": "Your lover's friends or relatives would get rid of you by any means possible" },
+    { "Low": 3, "Result": "Your friends or relatives hate your lover" },
+    { "Low": 4, "Result": "One of you has a romantic rival" },
+    { "Low": 5, "Result": "You are separated for some reason" },
+    { "Low": 6, "Result": "You fight constantly" },
+    { "Low": 7, "Result": "One of you is insanely jealous" },
+    { "Low": 8, "Result": "One of you is seeing someone else on the side" },
+    { "Low": 9, "High": 10, "Result": "Everything is great between you" }
+  ],
+  "SingleStatus": [
+    { "Low": 1, "High": 2, "Result": "You date anything that moves" },
+    { "Low": 3, "High": 4, "Result": "You're waiting for the right one" },
+    { "Low": 5, "High": 6, "Result": "You're on a personal mission and haven't got time to waste on romance" },
+    { "Low": 7, "High": 8, "Result": "You just don't want to get serious" },
+    { "Low": 9, "High": 10, "Result": "Sex?  Romance?  What's that?" }
+  ],
+  "ReboundStatus": [
+    { "Low": 1, "Result": "They died in a war" },
+    { "Low": 2, "Result": "They were killed in an accident" },
+    { "Low": 3, "Result": "They mysteriously vanished" },
+    { "Low": 4, "Result": "It just didn't work out" },
+    { "Low": 5, "Result": "A personal mission came between you" },
+    { "Low": 6, "Result": "They were kidnapped or imprisoned" },
+    { "Low": 7, "Result": "They committed suicide or went insane" },
+    { "Low": 8, "Result": "Relatives or social pressures kept you apart" },
+    { "Low": 9, "Result": "They defected" },
+    { "Low": 10, "Result": "A rival cut you out of the action" }
+  ],
+  "ExStatus": [
+    { "Low": 1, "Result": "They still love you" },
+    { "Low": 2, "Result": "You still love them" },
+    { "Low": 3, "Result": "You still love each other" },
+    { "Low": 4, "Result": "You hate them" },
+    { "Low": 5, "Result": "They hate you" },
+    { "Low": 6, "Result": "You hate each other" },
+    { "Low": 7, "Result": "You're good friends" },
+    { "Low": 8, "Result": "No feelings either way" },
+    { "Low": 9, "Result": "You like them but they hate you" },
+    { "Low": 10, "Result": "They like you but you hate them" }
+  ]
+}

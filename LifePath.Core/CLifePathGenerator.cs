@@ -1,25 +1,21 @@
-﻿using System;
+using System;
+using System.Collections.Generic;
 using System.Data;
+using LifePath.Core.Tables;
 
 namespace LifePath.Core
 {
     public class CLifePathGenerator
     {
         private Random m_rand;
-        private DataSet m_pathData;
+        private Dictionary<string, WeightedTable> m_tables;
         private CNameGenerator m_namegen;
 
-        public CLifePathGenerator()
+        public CLifePathGenerator(Dictionary<string, WeightedTable> tables, DataSet nameData = null)
         {
             m_rand = new Random(DateTime.Now.Millisecond);
-            m_namegen = new CNameGenerator(m_pathData);
-        }
-
-        public CLifePathGenerator(DataSet set)
-        {
-            m_rand = new Random(DateTime.Now.Millisecond);
-            m_pathData = set;
-            m_namegen = new CNameGenerator(m_pathData);
+            m_tables = tables;
+            m_namegen = new CNameGenerator(nameData);
         }
 
         public CLifePath Generate(String firstname, String lastname)
@@ -33,10 +29,10 @@ namespace LifePath.Core
 
         private void getParentStatus(ref CLifePath path)
         {
-            String parentStatus = getResult(m_pathData.Tables["Parents"]);
+            String parentStatus = m_tables["Parents"].Roll(m_rand);
             if (parentStatus == "@BothLiving")
             {
-                path.ParentStatus = getResult(m_pathData.Tables["BothLiving"]);
+                path.ParentStatus = m_tables["BothLiving"].Roll(m_rand);
                 for (int i = 0; i < 2; ++i)
                 {
                     CActor parent = new CActor();
@@ -47,7 +43,7 @@ namespace LifePath.Core
             }
             else
             {
-                path.ParentStatus = getResult(m_pathData.Tables["Other"]);
+                path.ParentStatus = m_tables["Other"].Roll(m_rand);
                 if (path.ParentStatus.Contains("(s)"))
                 {
                     int coin = m_rand.Next(2);
@@ -66,10 +62,10 @@ namespace LifePath.Core
         public void RollParents(ref CLifePath path)
         {
             path.Parents.Clear();
-            String parentStatus = getResult(m_pathData.Tables["Parents"]);
+            String parentStatus = m_tables["Parents"].Roll(m_rand);
             if (parentStatus == "@BothLiving")
             {
-                path.ParentStatus = getResult(m_pathData.Tables["BothLiving"]);
+                path.ParentStatus = m_tables["BothLiving"].Roll(m_rand);
                 for (int i = 0; i < 2; ++i)
                 {
                     CActor parent = new CActor();
@@ -80,7 +76,7 @@ namespace LifePath.Core
             }
             else
             {
-                path.ParentStatus = getResult(m_pathData.Tables["Other"]);
+                path.ParentStatus = m_tables["Other"].Roll(m_rand);
                 if (path.ParentStatus.Contains("(s)"))
                 {
                     int coin = m_rand.Next(2);
@@ -97,10 +93,10 @@ namespace LifePath.Core
 
         private void getFamilySituation(ref CLifePath path)
         {
-            String familySituation = getResult(m_pathData.Tables["FamilyStanding"]);
+            String familySituation = m_tables["FamilyStanding"].Roll(m_rand);
             if (familySituation == "@Siblings")
             {
-                String sibnum = getResult(m_pathData.Tables["Siblings"]);
+                String sibnum = m_tables["Siblings"].Roll(m_rand);
                 if (sibnum != "0")
                 {
                     int num = int.Parse(sibnum);
@@ -109,15 +105,15 @@ namespace LifePath.Core
                         CActor sibling = new CActor();
                         sibling.FirstName = m_namegen.GetFirstName();
                         sibling.LastName = path.LastName;
-                        sibling.Relationship = getResult(m_pathData.Tables["SiblingRel"]);
+                        sibling.Relationship = m_tables["SiblingRel"].Roll(m_rand);
                         path.AddSibling(sibling);
                     }
                 }
             }
             else
             {
-                path.FamilyStatus = getResult(m_pathData.Tables["FamilyMisfortune"]);
-                path.LifeGoal = getResult(m_pathData.Tables["LifeGoal"]);
+                path.FamilyStatus = m_tables["FamilyMisfortune"].Roll(m_rand);
+                path.LifeGoal = m_tables["LifeGoal"].Roll(m_rand);
             }
             getFriendsAndEnemies(ref path);
         }
@@ -126,10 +122,10 @@ namespace LifePath.Core
         {
             path.FamilyStatus = "Normal";
             path.Siblings.Clear();
-            String familySituation = getResult(m_pathData.Tables["FamilyStanding"]);
+            String familySituation = m_tables["FamilyStanding"].Roll(m_rand);
             if (familySituation == "@Siblings")
             {
-                String sibnum = getResult(m_pathData.Tables["Siblings"]);
+                String sibnum = m_tables["Siblings"].Roll(m_rand);
                 if (sibnum != "0")
                 {
                     int num = int.Parse(sibnum);
@@ -138,22 +134,22 @@ namespace LifePath.Core
                         CActor sibling = new CActor();
                         sibling.FirstName = m_namegen.GetFirstName();
                         sibling.LastName = path.LastName;
-                        sibling.Relationship = getResult(m_pathData.Tables["SiblingRel"]);
+                        sibling.Relationship = m_tables["SiblingRel"].Roll(m_rand);
                         path.AddSibling(sibling);
                     }
                 }
             }
             else
             {
-                path.FamilyStatus = getResult(m_pathData.Tables["FamilyMisfortune"]);
-                path.LifeGoal = getResult(m_pathData.Tables["LifeGoal"]);
+                path.FamilyStatus = m_tables["FamilyMisfortune"].Roll(m_rand);
+                path.LifeGoal = m_tables["LifeGoal"].Roll(m_rand);
             }
         }
 
         public void RollSiblings(ref CLifePath path)
         {
             path.Siblings.Clear();
-            String sibnum = getResult(m_pathData.Tables["Siblings"]);
+            String sibnum = m_tables["Siblings"].Roll(m_rand);
             if (sibnum != "0")
             {
                 int num = int.Parse(sibnum);
@@ -162,7 +158,7 @@ namespace LifePath.Core
                     CActor sibling = new CActor();
                     sibling.FirstName = m_namegen.GetFirstName();
                     sibling.LastName = path.LastName;
-                    sibling.Relationship = getResult(m_pathData.Tables["SiblingRel"]);
+                    sibling.Relationship = m_tables["SiblingRel"].Roll(m_rand);
                     path.AddSibling(sibling);
                 }
             }
@@ -189,7 +185,7 @@ namespace LifePath.Core
                 CActor friend = new CActor();
                 friend.FirstName = m_namegen.GetFirstName();
                 friend.LastName = m_namegen.GetLastName();
-                friend.Relationship = getResult(m_pathData.Tables["Friends"]);
+                friend.Relationship = m_tables["Friends"].Roll(m_rand);
                 path.AddFriend(friend);
             }
         }
@@ -208,30 +204,30 @@ namespace LifePath.Core
                 CActor enemy = new CActor();
                 enemy.FirstName = m_namegen.GetFirstName();
                 enemy.LastName = m_namegen.GetLastName();
-                enemy.Relationship = getResult(m_pathData.Tables["Enemies"]);
-                enemy.Origin = getResult(m_pathData.Tables["EnemyOrigin"]);
-                enemy.Status = getResult(m_pathData.Tables["EnemyStatus"]);
-                enemy.Reaction = getResult(m_pathData.Tables["EnemyReaction"]);
+                enemy.Relationship = m_tables["Enemies"].Roll(m_rand);
+                enemy.Origin = m_tables["EnemyOrigin"].Roll(m_rand);
+                enemy.Status = m_tables["EnemyStatus"].Roll(m_rand);
+                enemy.Reaction = m_tables["EnemyReaction"].Roll(m_rand);
                 path.AddEnemy(enemy);
             }
         }
 
         private void getRomanticLife(ref CLifePath path)
         {
-            String romance = getResult(m_pathData.Tables["Romance"]);
+            String romance = m_tables["Romance"].Roll(m_rand);
             switch (romance)
             {
                 case "@RelationshipStatus":
                     path.Lover.FirstName = m_namegen.GetFirstName();
                     path.Lover.LastName = m_namegen.GetLastName();
-                    path.Lover.Relationship = getResult(m_pathData.Tables["RelationshipStatus"]);
+                    path.Lover.Relationship = m_tables["RelationshipStatus"].Roll(m_rand);
                     path.RomanceStatus = "In a relationship.";
                     break;
                 case "@SingleStatus":
-                    path.RomanceStatus = getResult(m_pathData.Tables["SingleStatus"]);
+                    path.RomanceStatus = m_tables["SingleStatus"].Roll(m_rand);
                     break;
                 case "@ReboundStatus":
-                    path.RomanceStatus = getResult(m_pathData.Tables["ReboundStatus"]);
+                    path.RomanceStatus = m_tables["ReboundStatus"].Roll(m_rand);
                     getExStatus(ref path);
                     break;
             }
@@ -240,20 +236,20 @@ namespace LifePath.Core
         public void RollRomance(ref CLifePath path)
         {
             path.Lover = new CActor();
-            String romance = getResult(m_pathData.Tables["Romance"]);
+            String romance = m_tables["Romance"].Roll(m_rand);
             switch (romance)
             {
                 case "@RelationshipStatus":
                     path.Lover.FirstName = m_namegen.GetFirstName();
                     path.Lover.LastName = m_namegen.GetLastName();
-                    path.Lover.Relationship = getResult(m_pathData.Tables["RelationshipStatus"]);
+                    path.Lover.Relationship = m_tables["RelationshipStatus"].Roll(m_rand);
                     path.RomanceStatus = "In a relationship.";
                     break;
                 case "@SingleStatus":
-                    path.RomanceStatus = getResult(m_pathData.Tables["SingleStatus"]);
+                    path.RomanceStatus = m_tables["SingleStatus"].Roll(m_rand);
                     break;
                 case "@ReboundStatus":
-                    path.RomanceStatus = getResult(m_pathData.Tables["ReboundStatus"]);
+                    path.RomanceStatus = m_tables["ReboundStatus"].Roll(m_rand);
                     getExStatus(ref path);
                     break;
             }
@@ -270,83 +266,9 @@ namespace LifePath.Core
                 default:
                     path.Lover.FirstName = m_namegen.GetFirstName();
                     path.Lover.LastName = m_namegen.GetLastName();
-                    path.Lover.Relationship = getResult(m_pathData.Tables["ExStatus"]);
+                    path.Lover.Relationship = m_tables["ExStatus"].Roll(m_rand);
                     break;
             }
-        }
-
-        private string getResult(DataTable table)
-        {
-            string result = "";
-            Tuple<int, int> range = getRange(table);
-            int roll = m_rand.Next(range.Item1, range.Item2 + 1);
-            int low = 0;
-            int high = 0;
-            foreach (DataRow row in table.Rows)
-            {
-                String l = row["rlow"].ToString();
-                String h = row["rhigh"].ToString();
-                String r = row["result"].ToString();
-                if (String.IsNullOrEmpty(h))
-                {
-                    low = int.Parse(l);
-                    if (roll == low)
-                    {
-                        if (r == "#")
-                            result = roll.ToString();
-                        else
-                            result = r;
-                        break;
-                    }
-                }
-                else
-                {
-                    low = int.Parse(l);
-                    high = int.Parse(h);
-                    if (roll >= low && roll <= high)
-                    {
-                        if (r == "#")
-                            result = roll.ToString();
-                        else
-                            result = r;
-                        break;
-                    }
-                }
-            }
-
-            return result;
-        }
-
-        private Tuple<int, int> getRange(DataTable table)
-        {
-            Tuple<int, int> range = new Tuple<int, int>(0, 0);
-            int lval = 1;
-            int hval = 1;
-            int low = 0;
-            int high = 0;
-            foreach (DataRow row in table.Rows)
-            {
-                String l = row["rlow"].ToString();
-                String h = row["rhigh"].ToString();
-                if (!String.IsNullOrEmpty(l))
-                {
-                    low = int.Parse(l);
-                    if (low < lval)
-                    {
-                        lval = low;
-                    }
-                }
-                if (!String.IsNullOrEmpty(h))
-                {
-                    high = int.Parse(h);
-                    if (hval < high)
-                    {
-                        hval = high;
-                    }
-                }
-            }
-            range = new Tuple<int, int>(lval, hval);
-            return range;
         }
     }
 }

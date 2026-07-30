@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using FluentBehaviourTree;
 using LifePath.Core.Tables;
+using LifePath.Core.Trees;
 
 namespace LifePath.Core
 {
@@ -14,24 +15,29 @@ namespace LifePath.Core
         private readonly IBehaviourTreeNode m_tree;
         private CLifePath m_currentPath;
 
-        public CLifePathGenerator(Dictionary<string, WeightedTable> tables, DataSet nameData = null)
+        public CLifePathGenerator(Dictionary<string, WeightedTable> tables, DataSet nameData = null, BehaviourTreeNodeJson treeDefinition = null)
         {
             m_rand = new Random(DateTime.Now.Millisecond);
             m_tables = tables;
             m_namegen = new CNameGenerator(nameData);
-            m_tree = BuildTree();
+            m_tree = BehaviourTreeJsonLoader.LoadFromNode(treeDefinition ?? LifePathTreeDefinition.Default(), ResolveAction);
         }
 
-        private IBehaviourTreeNode BuildTree()
+        private Func<TimeData, BehaviourTreeStatus> ResolveAction(string actionName)
         {
-            return new BehaviourTreeBuilder()
-                .Sequence("Lifepath")
-                    .Do("ParentStatus", t => { RollParents(ref m_currentPath); return BehaviourTreeStatus.Success; })
-                    .Do("FamilySituation", t => { RollFamilySituation(ref m_currentPath); return BehaviourTreeStatus.Success; })
-                    .Do("FriendsAndEnemies", t => { RollFriends(ref m_currentPath); RollEnemies(ref m_currentPath); return BehaviourTreeStatus.Success; })
-                    .Do("RomanticLife", t => { RollRomance(ref m_currentPath); return BehaviourTreeStatus.Success; })
-                .End()
-                .Build();
+            switch (actionName)
+            {
+                case "ParentStatus":
+                    return t => { RollParents(ref m_currentPath); return BehaviourTreeStatus.Success; };
+                case "FamilySituation":
+                    return t => { RollFamilySituation(ref m_currentPath); return BehaviourTreeStatus.Success; };
+                case "FriendsAndEnemies":
+                    return t => { RollFriends(ref m_currentPath); RollEnemies(ref m_currentPath); return BehaviourTreeStatus.Success; };
+                case "RomanticLife":
+                    return t => { RollRomance(ref m_currentPath); return BehaviourTreeStatus.Success; };
+                default:
+                    throw new InvalidOperationException($"No registered action named '{actionName}'.");
+            }
         }
 
         public CLifePath Generate(String firstname, String lastname)

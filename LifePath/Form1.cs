@@ -4,8 +4,10 @@ using System.Data;
 using System.Windows.Forms;
 using System.IO;
 using System.Xml.Linq;
+using FluentBehaviourTree;
 using LifePath.Core;
 using LifePath.Core.Tables;
+using LifePath.Core.Trees;
 
 namespace LifePath
 {
@@ -35,7 +37,19 @@ namespace LifePath
                     using (var reader = doc.CreateReader())
                         m_pathData.ReadXml(reader);
 
-                    m_lpgen = new CLifePathGenerator(tables, m_pathData);
+                    BehaviourTreeNodeJson treeDefinition;
+                    if (File.Exists("Trees\\lifepath.json"))
+                    {
+                        treeDefinition = LifePathTreeDefinition.Load("Trees\\lifepath.json");
+                    }
+                    else
+                    {
+                        treeDefinition = LifePathTreeDefinition.Default();
+                        Directory.CreateDirectory("Trees");
+                        LifePathTreeDefinition.Save(treeDefinition, "Trees\\lifepath.json");
+                    }
+
+                    m_lpgen = new CLifePathGenerator(tables, m_pathData, treeDefinition);
                     m_namegen = new CNameGenerator(m_pathData);
                 }
                 catch (Exception ex)

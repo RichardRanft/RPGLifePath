@@ -1,0 +1,41 @@
+{
+  "Type": "Sequence",
+  "Name": "Lifepath",
+  "Action": null,
+  "NumRequiredToFail": 0,
+  "NumRequiredToSucceed": 0,
+  "Children": [
+    {
+      "Type": "Action",
+      "Name": "ParentStatus",
+      "Action": "ParentStatus",
+      "NumRequiredToFail": 0,
+      "NumRequiredToSucceed": 0,
+      "Children": []
+    },
+    {
+      "Type": "Action",
+      "Name": "FamilySituation",
+      "Action": "FamilySituation",
+      "NumRequiredToFail": 0,
+      "NumRequiredToSucceed": 0,
+      "Children": []
+    },
+    {
+      "Type": "Action",
+      "Name": "FriendsAndEnemies",
+      "Action": "FriendsAndEnemies",
+      "NumRequiredToFail": 0,
+      "NumRequiredToSucceed": 0,
+      "Children": []
+    },
+    {
+      "Type": "Action",
+      "Name": "RomanticLife",
+      "Action": "RomanticLife",
+      "NumRequiredToFail": 0,
+      "NumRequiredToSucceed": 0,
+      "Children": []
+    }
+  ]
+}

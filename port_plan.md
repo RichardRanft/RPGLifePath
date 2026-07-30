@@ -353,7 +353,7 @@ counted distinct results reached: **old formula reached only 1 distinct result**
 the 7 tables**. Rebuilt (0 warnings, 0 errors) and manually confirmed `LifePath.exe`
 still launches and stays running.
 
-## Phase 4 — evaluate FluentBehaviourTree for generation flexibility (complete, steps 1-3)
+## Phase 4 — evaluate FluentBehaviourTree for generation flexibility (complete, all steps)
 
 Goal: make the fixed `getX → getY → getZ` call chain in `CLifePathGenerator` into a
 composable tree, so new life stages, branching, or reordering can eventually be done
@@ -447,11 +447,59 @@ only (steps 1-3, Decision 5) — JSON-driven loading (step 4) is a deferred foll
   confirmed `LifePath.exe` still launches and stays running (same process-liveness
   caveat as prior phases — no Windows GUI automation tool available here for a full
   click-through).
-- **Not done, per Decision 5 / step 4 (deferred follow-up, unchanged from the
-  original plan):** `BehaviourTreeJsonLoader`-based data-driven tree definitions.
-  The vendored loader compiles and is available, but nothing in this repo calls it
-  yet — the hardcoded `BehaviourTreeBuilder` sequence in `Generate()` is still the
-  only tree in use.
+### Step 4 follow-up, now done: JSON-driven tree definition
+
+Goal: make the tree shape itself data (loadable/saveable JSON), not just a builder
+call graph, so adding/reordering a life stage becomes a JSON edit — the actual
+flexibility payoff step 4 was deferred for.
+
+- New `LifePath.Core.Trees.LifePathTreeDefinition` (static class): `Default()`
+  returns the canonical `BehaviourTreeNodeJson` — `Sequence("Lifepath")` with the
+  same four `Action` children (`ParentStatus`, `FamilySituation`,
+  `FriendsAndEnemies`, `RomanticLife`) the hardcoded builder tree had. `Save(node,
+  path)` writes it via `JsonConvert.SerializeObject(node, Formatting.Indented)`;
+  `Load(path)` reads it back via `JsonConvert.DeserializeObject<BehaviourTreeNodeJson>`
+  — both trivial, since `BehaviourTreeNodeJson` (vendored) is already a plain mutable
+  DTO with no custom serialization needed.
+- `CLifePathGenerator`'s hardcoded `BuildTree()`/`BehaviourTreeBuilder` fluent chain
+  is gone, **replaced** (not kept alongside) by
+  `BehaviourTreeJsonLoader.LoadFromNode(treeDefinition, ResolveAction)` — the
+  constructor takes an optional `BehaviourTreeNodeJson treeDefinition = null`,
+  falling back to `LifePathTreeDefinition.Default()`. `ResolveAction(string)` maps
+  the four action names to the same `RollParents`/`RollFamilySituation`/
+  `RollFriends`+`RollEnemies`/`RollRomance` leaf bodies as before (unchanged
+  method bodies — only how the tree wiring reaches them changed). This
+  consolidates on a single tree-construction mechanism (JSON-node-driven, whether
+  the node came from a file or the in-code default) instead of maintaining both a
+  fluent-builder path and a JSON path for the same tree.
+- `LifePath\Trees\lifepath.json` — new committed content file (`CopyToOutputDirectory`
+  in `LifePath.csproj`), generated once via `LifePathTreeDefinition.Save`, same
+  precedent as `Tables\pathdata.json` in Phase 3. `Form1.Form1_Load` loads it if
+  present; if absent (e.g. a future clean checkout without the file, or a user who
+  deletes it to reset), bootstraps it by saving `LifePathTreeDefinition.Default()`
+  to that path first — so both load and save are real, exercised code paths, not
+  just available-but-unused API surface.
+- **Validation performed** (throwaway console spike, referencing `LifePath.Core`
+  and `LifePath.BehaviorTree` via `ProjectReference`, deleted after the run — not
+  part of the repo):
+  1. Round-trip fidelity: `Save(Default())` → `Load()` structurally deep-equal to
+     the original (`Type`/`Name`/`Action`/`NumRequiredToFail`/
+     `NumRequiredToSucceed`/`Children` recursively) — **pass**.
+  2. The actual committed `Trees\lifepath.json` loads back structurally identical
+     to `LifePathTreeDefinition.Default()` — **pass**.
+  3. Equivalence, same method as the Phase 4 step 1-3 spike above: reimplemented
+     the *original pre-Phase-4* hardcoded call chain as free functions, and a
+     *new* JSON-tree-driven version using `BehaviourTreeJsonLoader.LoadFromNode`
+     against the actual committed `Trees\lifepath.json` content, both sharing the
+     same real `pathdata.xml`-loaded `WeightedTable`s and a deterministic name
+     stub. Ran **20,000** generations with identically-seeded `Random` instances
+     (old vs. new) and diffed every field of the resulting `CLifePath` — **zero
+     mismatches across all 20,000 generations**, confirming the JSON-driven tree
+     is behaviorally identical to both the code it replaced in this pass and the
+     original pre-Phase-4 chain.
+- Rebuilt (0 warnings, 0 errors) and manually confirmed `LifePath.exe` still
+  launches with the `Trees\lifepath.json`-driven tree (same process-liveness
+  caveat as prior phases).
 
 ## Post-Phase-4 cleanup pass (`/simplify`)
 

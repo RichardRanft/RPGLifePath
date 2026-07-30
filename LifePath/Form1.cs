@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Windows.Forms;
 using System.IO;
+using System.Xml.Linq;
 using LifePath.Core;
 using LifePath.Core.Tables;
 
@@ -27,9 +28,13 @@ namespace LifePath
             {
                 try
                 {
+                    XDocument doc = XDocument.Load("Tables\\pathdata.xml");
+                    Dictionary<string, WeightedTable> tables = WeightedTableXmlLoader.LoadFrom(doc);
+
                     m_pathData = new DataSet();
-                    m_pathData.ReadXml("Tables\\pathdata.xml");
-                    Dictionary<string, WeightedTable> tables = WeightedTableXmlLoader.Load("Tables\\pathdata.xml");
+                    using (var reader = doc.CreateReader())
+                        m_pathData.ReadXml(reader);
+
                     m_lpgen = new CLifePathGenerator(tables, m_pathData);
                     m_namegen = new CNameGenerator(m_pathData);
                 }

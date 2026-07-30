@@ -453,6 +453,49 @@ only (steps 1-3, Decision 5) — JSON-driven loading (step 4) is a deferred foll
   yet — the hardcoded `BehaviourTreeBuilder` sequence in `Generate()` is still the
   only tree in use.
 
+## Post-Phase-4 cleanup pass (`/simplify`)
+
+Four review agents (reuse/simplification/efficiency/altitude) reviewed the full
+Phase 2-4 diff (`966d14a...cd301a9`). All four independently converged on the same
+two real findings; a third, minor one came from the simplification pass only.
+Applied all three, each verified empirically before/alongside the fix:
+
+- **`Form1.Form1_Load` parsed `pathdata.xml` twice** — once via `DataSet.ReadXml`
+  (for `CNameGenerator`), once via `WeightedTableXmlLoader.Load` (for
+  `WeightedTable`s), each a separate disk read + full parse of the same 5.3MB file.
+  Fixed by parsing once with `XDocument.Load`, feeding it to
+  `WeightedTableXmlLoader.LoadFrom(doc)` directly, and building the `DataSet` from
+  the same in-memory document via `doc.CreateReader()` → `DataSet.ReadXml(XmlReader)`
+  instead of re-opening the file. Verified: app still launches and loads correctly.
+- **`CLifePathGenerator.Generate()` rebuilt the behavior tree from scratch on every
+  call** — a new `BehaviourTreeBuilder` graph and four closures allocated per
+  generation, even though the tree shape never varies. Fixed by building the tree
+  once in the constructor (`BuildTree()`, stored in `m_tree`) with leaf closures
+  reading a `m_currentPath` instance field instead of capturing a per-call local;
+  `Generate()` now just sets `m_currentPath` and ticks the cached tree. **Not
+  applied:** the simplification agent's alternative of dropping the tree and calling
+  `RollParents`/etc. directly — that would undo Phase 4's actual point (driving
+  generation through the behavior tree) rather than just removing waste, so it was
+  skipped as changing intended behavior/architecture, not just performance. Verified
+  empirically (throwaway spike, deleted after): 5,000 `Generate()` calls on one
+  `CLifePathGenerator` instance, confirmed varied output (13 distinct `ParentStatus`
+  values, all three `Friends`-count buckets seen) and zero empty/null core fields —
+  no cross-call state bleed from reusing the cached tree.
+- **`WeightedTableJsonLoader` had a private `Row` DTO** duplicating
+  `WeightedTableRow`'s three fields just to satisfy JSON deserialization, then
+  mapped one-to-one into the real (immutable, constructor-only) type. Removed it —
+  Newtonsoft.Json can deserialize directly into a type with only a matching
+  constructor (case-insensitive parameter-name binding against JSON properties),
+  so `JsonConvert.DeserializeObject<Dictionary<string, List<WeightedTableRow>>>`
+  works without a mutable shim. Verified empirically (throwaway spike, deleted
+  after) rather than trusted on inspection: re-loaded `pathdata.json` with the
+  simplified loader and diffed all 18 tables' rows/ranges against the XML loader —
+  identical — plus a 2,000-roll spread check on `Friends` confirming all 10 rows
+  still reachable (the nullable `High` field still round-trips correctly).
+
+Rebuilt after all three fixes (0 warnings, 0 errors) and manually confirmed
+`LifePath.exe` still launches and runs.
+
 ## Decisions
 
 Resolved with the user; reflected in the phase steps above.

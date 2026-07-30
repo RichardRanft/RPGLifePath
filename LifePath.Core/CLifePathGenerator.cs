@@ -11,12 +11,27 @@ namespace LifePath.Core
         private Random m_rand;
         private Dictionary<string, WeightedTable> m_tables;
         private CNameGenerator m_namegen;
+        private readonly IBehaviourTreeNode m_tree;
+        private CLifePath m_currentPath;
 
         public CLifePathGenerator(Dictionary<string, WeightedTable> tables, DataSet nameData = null)
         {
             m_rand = new Random(DateTime.Now.Millisecond);
             m_tables = tables;
             m_namegen = new CNameGenerator(nameData);
+            m_tree = BuildTree();
+        }
+
+        private IBehaviourTreeNode BuildTree()
+        {
+            return new BehaviourTreeBuilder()
+                .Sequence("Lifepath")
+                    .Do("ParentStatus", t => { RollParents(ref m_currentPath); return BehaviourTreeStatus.Success; })
+                    .Do("FamilySituation", t => { RollFamilySituation(ref m_currentPath); return BehaviourTreeStatus.Success; })
+                    .Do("FriendsAndEnemies", t => { RollFriends(ref m_currentPath); RollEnemies(ref m_currentPath); return BehaviourTreeStatus.Success; })
+                    .Do("RomanticLife", t => { RollRomance(ref m_currentPath); return BehaviourTreeStatus.Success; })
+                .End()
+                .Build();
         }
 
         public CLifePath Generate(String firstname, String lastname)
@@ -25,17 +40,10 @@ namespace LifePath.Core
             path.FirstName = firstname;
             path.LastName = lastname;
 
-            IBehaviourTreeNode tree = new BehaviourTreeBuilder()
-                .Sequence("Lifepath")
-                    .Do("ParentStatus", t => { RollParents(ref path); return BehaviourTreeStatus.Success; })
-                    .Do("FamilySituation", t => { RollFamilySituation(ref path); return BehaviourTreeStatus.Success; })
-                    .Do("FriendsAndEnemies", t => { RollFriends(ref path); RollEnemies(ref path); return BehaviourTreeStatus.Success; })
-                    .Do("RomanticLife", t => { RollRomance(ref path); return BehaviourTreeStatus.Success; })
-                .End()
-                .Build();
-            tree.Tick(default);
+            m_currentPath = path;
+            m_tree.Tick(default);
 
-            return path;
+            return m_currentPath;
         }
 
         public void RollParents(ref CLifePath path)

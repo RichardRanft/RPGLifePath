@@ -353,7 +353,7 @@ counted distinct results reached: **old formula reached only 1 distinct result**
 the 7 tables**. Rebuilt (0 warnings, 0 errors) and manually confirmed `LifePath.exe`
 still launches and stays running.
 
-## Phase 4 — evaluate FluentBehaviourTree for generation flexibility
+## Phase 4 — evaluate FluentBehaviourTree for generation flexibility (complete, steps 1-3)
 
 Goal: make the fixed `getX → getY → getZ` call chain in `CLifePathGenerator` into a
 composable tree, so new life stages, branching, or reordering can eventually be done
@@ -393,6 +393,65 @@ only (steps 1-3, Decision 5) — JSON-driven loading (step 4) is a deferred foll
    *which stages run* leaving table-roll weighting untouched, is a question for the
    JSON-driven follow-up, not this pass — the BT library has no concept of weighted
    random rolls, so `WeightedTable` stays as-is regardless of how that's resolved.
+
+**Done, with empirical validation (throwaway spike, not committed — see below):**
+
+- Vendored all 12 `//depot/AI/BehaviorTree/BehaviorTree/*.cs` files (via `p4 print`,
+  not a workspace sync, so no client mapping needed) into a new
+  `LifePath.BehaviorTree` project (`net10.0`, `FluentBehaviourTree` namespace
+  preserved as-is rather than renamed, since it's vendored third-party-style code, not
+  lifepath-specific). **Correction to this phase's original plan text above:** step 1
+  said no `Newtonsoft.Json` reference would be needed since the JSON loader (step 4)
+  is deferred — that's wrong. `BehaviourTreeJsonLoader.cs` is vendored source that
+  *compiles* as part of the project regardless of whether it's called this phase, and
+  it has a hard `using Newtonsoft.Json;` — so `LifePath.BehaviorTree.csproj` needs the
+  package reference too, discovered by the first build attempt (`CS0246` on
+  `JsonConvert`). Also enabled `<Nullable>enable</Nullable>` for this project (the
+  files use `?` nullable-reference syntax, e.g. `BehaviourTreeBuilder.cs`'s
+  `IBehaviourTreeNode? curNode`) to clear `CS8632` warnings rather than leave them.
+  `LifePath.Core` references `LifePath.BehaviorTree`; `LifePath.slnx` lists all three
+  projects now.
+- `CLifePathGenerator.Generate()` now builds and ticks
+  `Sequence("Lifepath") → [ParentStatus, FamilySituation, FriendsAndEnemies, RomanticLife]`
+  exactly as specified, each leaf an `ActionNode` delegate that always returns
+  `BehaviourTreeStatus.Success`. The mechanical part turned out simpler than the plan
+  assumed: the four leaf bodies aren't new code — they're the *existing public*
+  `RollParents`/`RollFamilySituation`/`RollFriends`+`RollEnemies`/`RollRomance`
+  methods (the ones the UI's individual reroll buttons already call), reused as-is.
+  Each of those already resets its own state at the top (`path.Parents.Clear()`,
+  `path.Siblings.Clear()`, `path.Lover = new CActor()`, etc.) as a no-op on a
+  freshly-constructed `CLifePath`, and their bodies were already byte-for-byte
+  identical to the old private chain methods' bodies (confirmed by direct comparison
+  before writing any code) — so no new leaf-body code was needed at all. The four
+  private chain methods (`getParentStatus`, `getFamilySituation`,
+  `getFriendsAndEnemies`, `getRomanticLife`) became dead once `Generate()` stopped
+  calling them and were deleted; `getExStatus` stays (still used by `RollRomance`).
+- **Validation performed** (throwaway console spike under a scratch dir, referencing
+  `LifePath.Core` and `LifePath.BehaviorTree` via `ProjectReference`, deleted after
+  the run — not part of the repo): reimplemented the *old* pre-Phase-4 hardcoded call
+  chain as free functions (copied from the pre-edit source) and the *new*
+  tree-orchestrated version as free functions calling the vendored
+  `BehaviourTreeBuilder`, both operating on the same real `pathdata.xml`-loaded
+  `WeightedTable` dictionary and a shared deterministic name stub (`"N" +
+  rand.Next(1_000_000)`, used in place of `CNameGenerator` — which seeds its own
+  internal `Random` from `DateTime.Now.Millisecond` and so can't be made
+  reproducible across two independent instances; irrelevant to what Phase 4 changes,
+  since name draws consume a separate RNG stream from the table-roll `Random` in both
+  the old and new code and were never touched by this refactor). Ran **20,000**
+  generations, each with two `Random` instances seeded identically (old vs. new),
+  dumped every field of the resulting `CLifePath` (parent/sibling/friend/enemy counts
+  and each actor's name/relationship/origin/status/reaction, parent/family/romance
+  status strings, lover fields) to a string and compared — **zero mismatches across
+  all 20,000 generations**.
+- Rebuilt (`dotnet build LifePath.slnx` — 0 warnings, 0 errors) and manually
+  confirmed `LifePath.exe` still launches and stays running (same process-liveness
+  caveat as prior phases — no Windows GUI automation tool available here for a full
+  click-through).
+- **Not done, per Decision 5 / step 4 (deferred follow-up, unchanged from the
+  original plan):** `BehaviourTreeJsonLoader`-based data-driven tree definitions.
+  The vendored loader compiles and is available, but nothing in this repo calls it
+  yet — the hardcoded `BehaviourTreeBuilder` sequence in `Generate()` is still the
+  only tree in use.
 
 ## Decisions
 

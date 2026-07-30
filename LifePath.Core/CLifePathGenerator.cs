@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using FluentBehaviourTree;
 using LifePath.Core.Tables;
 
 namespace LifePath.Core
@@ -23,40 +24,18 @@ namespace LifePath.Core
             CLifePath path = new CLifePath();
             path.FirstName = firstname;
             path.LastName = lastname;
-            getParentStatus(ref path);
-            return path;
-        }
 
-        private void getParentStatus(ref CLifePath path)
-        {
-            String parentStatus = m_tables["Parents"].Roll(m_rand);
-            if (parentStatus == "@BothLiving")
-            {
-                path.ParentStatus = m_tables["BothLiving"].Roll(m_rand);
-                for (int i = 0; i < 2; ++i)
-                {
-                    CActor parent = new CActor();
-                    parent.FirstName = m_namegen.GetFirstName();
-                    parent.LastName = path.LastName;
-                    path.AddParent(parent);
-                }
-            }
-            else
-            {
-                path.ParentStatus = m_tables["Other"].Roll(m_rand);
-                if (path.ParentStatus.Contains("(s)"))
-                {
-                    int coin = m_rand.Next(2);
-                    if (coin > 0)
-                    {
-                        CActor parent = new CActor();
-                        parent.FirstName = m_namegen.GetFirstName();
-                        parent.LastName = path.LastName;
-                        path.AddParent(parent);
-                    }
-                }
-            }
-            getFamilySituation(ref path);
+            IBehaviourTreeNode tree = new BehaviourTreeBuilder()
+                .Sequence("Lifepath")
+                    .Do("ParentStatus", t => { RollParents(ref path); return BehaviourTreeStatus.Success; })
+                    .Do("FamilySituation", t => { RollFamilySituation(ref path); return BehaviourTreeStatus.Success; })
+                    .Do("FriendsAndEnemies", t => { RollFriends(ref path); RollEnemies(ref path); return BehaviourTreeStatus.Success; })
+                    .Do("RomanticLife", t => { RollRomance(ref path); return BehaviourTreeStatus.Success; })
+                .End()
+                .Build();
+            tree.Tick(default);
+
+            return path;
         }
 
         public void RollParents(ref CLifePath path)
@@ -89,33 +68,6 @@ namespace LifePath.Core
                     }
                 }
             }
-        }
-
-        private void getFamilySituation(ref CLifePath path)
-        {
-            String familySituation = m_tables["FamilyStanding"].Roll(m_rand);
-            if (familySituation == "@Siblings")
-            {
-                String sibnum = m_tables["Siblings"].Roll(m_rand);
-                if (sibnum != "0")
-                {
-                    int num = int.Parse(sibnum);
-                    for (int i = 0; i < num; ++i)
-                    {
-                        CActor sibling = new CActor();
-                        sibling.FirstName = m_namegen.GetFirstName();
-                        sibling.LastName = path.LastName;
-                        sibling.Relationship = m_tables["SiblingRel"].Roll(m_rand);
-                        path.AddSibling(sibling);
-                    }
-                }
-            }
-            else
-            {
-                path.FamilyStatus = m_tables["FamilyMisfortune"].Roll(m_rand);
-                path.LifeGoal = m_tables["LifeGoal"].Roll(m_rand);
-            }
-            getFriendsAndEnemies(ref path);
         }
 
         public void RollFamilySituation(ref CLifePath path)
@@ -164,13 +116,6 @@ namespace LifePath.Core
             }
         }
 
-        private void getFriendsAndEnemies(ref CLifePath path)
-        {
-            RollFriends(ref path);
-            RollEnemies(ref path);
-            getRomanticLife(ref path);
-        }
-
         public void RollFriends(ref CLifePath path)
         {
             path.Friends.Clear();
@@ -209,27 +154,6 @@ namespace LifePath.Core
                 enemy.Status = m_tables["EnemyStatus"].Roll(m_rand);
                 enemy.Reaction = m_tables["EnemyReaction"].Roll(m_rand);
                 path.AddEnemy(enemy);
-            }
-        }
-
-        private void getRomanticLife(ref CLifePath path)
-        {
-            String romance = m_tables["Romance"].Roll(m_rand);
-            switch (romance)
-            {
-                case "@RelationshipStatus":
-                    path.Lover.FirstName = m_namegen.GetFirstName();
-                    path.Lover.LastName = m_namegen.GetLastName();
-                    path.Lover.Relationship = m_tables["RelationshipStatus"].Roll(m_rand);
-                    path.RomanceStatus = "In a relationship.";
-                    break;
-                case "@SingleStatus":
-                    path.RomanceStatus = m_tables["SingleStatus"].Roll(m_rand);
-                    break;
-                case "@ReboundStatus":
-                    path.RomanceStatus = m_tables["ReboundStatus"].Roll(m_rand);
-                    getExStatus(ref path);
-                    break;
             }
         }
 

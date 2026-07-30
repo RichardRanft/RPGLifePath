@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 
-namespace LifePath
+namespace LifePath.Core
 {
-    class CLifePath
+    public class CLifePath
     {
         private List<CActor> m_parents;
         private List<CActor> m_siblings;

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO;
 
-namespace LifePath
+namespace LifePath.Core
 {
-    class CActor
+    public class CActor
     {
         public String Relationship = "";
         public String Status = "";

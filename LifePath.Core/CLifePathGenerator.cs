@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Data;
 
-namespace LifePath
+namespace LifePath.Core
 {
-    class CLifePathGenerator
+    public class CLifePathGenerator
     {
         private Random m_rand;
         private DataSet m_pathData;

@@ -5,11 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
-using System.Windows.Forms;
 
-namespace LifePath
+namespace LifePath.Core
 {
-    class CNameGenerator
+    public class CNameGenerator
     {
         private List<String> m_first;
         private List<String> m_last;
@@ -117,7 +116,7 @@ namespace LifePath
                 if (ex.InnerException != null)
                     msg += Environment.NewLine + ex.InnerException.Message;
 
-                MessageBox.Show(msg, "Error Loading Name Database");
+                throw new InvalidOperationException(msg, ex);
             }
         }
 

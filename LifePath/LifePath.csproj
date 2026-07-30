@@ -17,6 +17,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\LifePath.Core\LifePath.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

@@ -121,11 +121,25 @@ Done: `LifePath.csproj` converted to SDK-style (`net10.0-windows`, `UseWindowsFo
 Risk: none of the current code has been checked for TFM-specific behavior changes
 (e.g. `DataSet.ReadXml` schema inference) — Phase 1 build+manual-run is the check.
 
-## Phase 2 — isolate generation logic into a library
+## Phase 2 — isolate generation logic into a library (complete)
 
 Goal: `CActor`, `CLifePath`, `CLifePathGenerator`, `CNameGenerator` move to a new
 class library that the WinForms app references; the app project keeps only
 `Program.cs`, `Form1.cs`/Designer/resx.
+
+Done: added `LifePath.Core\LifePath.Core.csproj` (SDK-style, `net10.0`, no WinForms),
+moved the four class files in via `git mv`, renamed their namespace to `LifePath.Core`
+and made the classes `public` (required once they cross an assembly boundary — the
+original `internal` default made them invisible to `LifePath.csproj`, caught by the
+first build attempt). Replaced `CNameGenerator`'s `MessageBox.Show`-on-load-failure
+with a thrown `InvalidOperationException`, dropping the `System.Windows.Forms`
+reference from the library. `LifePath.csproj` got a `<ProjectReference>` to
+`LifePath.Core.csproj`; `Form1.cs` got a `using LifePath.Core;`. `LifePath.slnx`
+lists both projects. `dotnet build LifePath.slnx` succeeds; `LifePath.exe` launches
+and stays running with `Tables\pathdata.xml` loaded (process-liveness check — no
+Windows GUI automation tool is available in this environment, so the interactive
+generate/reroll/save pass from Phase 1 step 5 still needs a manual click-through by
+the user).
 
 1. Add `LifePath.Core\LifePath.Core.csproj` (SDK-style, `net10.0`, no WinForms
    dependency) to the solution.

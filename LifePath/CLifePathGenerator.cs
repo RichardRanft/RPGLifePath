@@ -12,14 +12,14 @@ namespace LifePath
         public CLifePathGenerator()
         {
             m_rand = new Random(DateTime.Now.Millisecond);
-            CNameGenerator namegen = new CNameGenerator(m_pathData);
+            m_namegen = new CNameGenerator(m_pathData);
         }
 
         public CLifePathGenerator(DataSet set)
         {
             m_rand = new Random(DateTime.Now.Millisecond);
-            CNameGenerator namegen = new CNameGenerator(m_pathData);
             m_pathData = set;
+            m_namegen = new CNameGenerator(m_pathData);
         }
 
         public CLifePath Generate(String firstname, String lastname)

@@ -1,0 +1,4 @@
+The RPGLifePath project is a C# implementation of a backstory generation system.
+1. Update RPGLifePath to .net 10
+2. Isolate the actual LifePath generation code into a separate library that is imported into the main application
+3. Assess using the code at spiker:1666//depot/AI/..., particularly the BehaviorTree code but anything else useful, to make generating lifepath results more flexible

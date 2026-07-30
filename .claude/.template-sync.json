@@ -1,0 +1,30 @@
+{
+  "agents/control-flow-reviewer.md": {
+    "source": "~/.claude/agent-templates/control-flow-reviewer.md",
+    "hash": "05fc18a657115e09e5286f62dda6a629b509a9692cdea0797f8b1cf2b2aeec14"
+  },
+  "agents/root-cause-analyst.md": {
+    "source": "~/.claude/agent-templates/root-cause-analyst.md",
+    "hash": "191a1ca09af2946e06b43f8ee7e8a4f46bc0121a2829c6a96a6b7639ce83561e"
+  },
+  "skills/claude-md-gen/skill.md": {
+    "source": "~/.claude/skills/claude-md-gen/skill.md",
+    "hash": "cc62ad0497abe1dddfc70cd4bc889a04630fce57a3471e2737c3b560f206b80c"
+  },
+  "skills/claude-md-gen-l/skill.md": {
+    "source": "~/.claude/skills/claude-md-gen-l/skill.md",
+    "hash": "68df63c65e7d08b7cdd00c50188dd9752435b808ede305402c2a28fc95f93ebe"
+  },
+  "skills/deploy/skill.md": {
+    "source": "~/.claude/skills/deploy/skill.md",
+    "hash": "a8c5daa88e2333445664ddad0c345ceacf50cafac454026508b4fc901b8b14b3"
+  },
+  "skills/slm-lifecycle-step/skill.md": {
+    "source": "~/.claude/skills/slm-lifecycle-step/skill.md",
+    "hash": "0775bf43ff672e15cf86776c813b8111863be8c96fd9fe645acce2e562959627"
+  },
+  "skills/submit/skill.md": {
+    "source": "~/.claude/skills/submit/skill.md",
+    "hash": "520d3202a73032640d0c5f4ceba494b46b8a897f3245700ab4e75711cb48fea0"
+  }
+}
